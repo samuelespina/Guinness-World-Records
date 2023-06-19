@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  scrollbar-width: thin;
+  letter-spacing: 0.5px;
+  scroll-behavior: smooth;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  line-height: 0;
+}
+
+body {
+  background-color: white;
+  color: black;
+}
+
+html,
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+}

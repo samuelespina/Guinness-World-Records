@@ -1,0 +1,27 @@
+.tool-tip {
+  position: absolute;
+  left: 2.5rem;
+  top: -1.5rem;
+  -webkit-box-shadow: 0px 0px 16px -6px #000000;
+  box-shadow: 0px 0px 16px -6px #000000;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+  overflow: hidden;
+  font-size: 0.7rem;
+  text-align: center;
+  width: fit-content;
+  white-space: nowrap;
+  padding: 0.3rem 0.8rem;
+  z-index: 100;
+  user-select: none;
+
+  &.active {
+    opacity: 1;
+  }
+}
