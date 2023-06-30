@@ -15,7 +15,6 @@ const transporter = nodemailer.createTransport({
 const app = express();
 app.use(cors());
 app.use(express.json());
-const clearResponce = false;
 
 const userdb = mysql.createConnection({
   host: "localhost",
@@ -56,9 +55,8 @@ app.post("/forgot-password", (req, res) => {
   const sql1 = `DELETE FROM recovery_data WHERE email = ? `;
   const values1 = [req.body.email];
   const sql2 =
-    "INSERT INTO recovery_data (`email`, `validation_code`, `expiration_validation_code`) Values (?)";
-  const date = new Date();
-  date.setMinutes(date.getMinutes() + 20);
+    "INSERT INTO recovery_data (`email`, `validation_code`, `expiration_date`) Values (?)";
+  const date = Date.now() + 60000;
   const values2 = [req.body.email, req.body.validationCode, date];
 
   forgotPasswordDb.query(sql1, [values1], (err, data) => {
@@ -96,14 +94,27 @@ app.post("/recovery-password", (req, res) => {
     [req.body.email, req.body.validationCode],
     (err, data) => {
       if (err) return res.json(err);
-      if (data[0].expiration_validation_code > new Date()) {
+      if (Date.now() < parseInt(data[0].expiration_date)) {
         if (data.length > 0) {
+          console.log(
+            "data di submit : ",
+            Date.now(),
+            "data di scadenza : ",
+            data[0].expiration_date
+          );
           res.send(true);
         } else {
           res.send(false);
         }
       } else {
-        res.send("codice scaduto");
+        console.log(
+          "data di submit : ",
+          Date.now(),
+          "data di scadenza : ",
+          data[0].expiration_date
+        );
+
+        res.send(false);
       }
     }
   );
