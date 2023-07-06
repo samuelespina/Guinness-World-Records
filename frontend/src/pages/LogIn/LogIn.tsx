@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { PasswordChecks } from "../../components";
 
 const LogIn = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const showMessage = useRef<HTMLInputElement>(null);
-  const [typeInput, setTypeInput] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleSubmit = () => {
     axios
@@ -19,47 +20,41 @@ const LogIn = () => {
   };
 
   return (
-    <div className="log-in-page" ref={showMessage}>
+    <div className="log-in-page">
       <h1>Log-in page </h1>
 
-      <label htmlFor="email">email</label>
-      <input
-        type="email"
-        placeholder="Enter your email"
-        name="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
+      <div className="form" ref={showMessage}>
+        <div className="input">
+          <label htmlFor="email">email</label>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
 
-      <label htmlFor="password">password</label>
-      <input
-        type={typeInput ? "text" : "password"}
-        placeholder="Enter your password"
-        name="password"
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <button
-        onMouseDown={() => {
-          setTypeInput(true);
-        }}
-        onMouseUp={() => {
-          setTypeInput(false);
-        }}
-      >
-        guarda
-      </button>
-      <button
-        className={`submit ${
-          password != "" && email != "" ? "active" : "inactive"
-        }`}
-        onClick={() => {
-          if (password != "" && email != "") {
-            handleSubmit();
-          }
-        }}
-      >
-        Signup
-      </button>
+        <div className="input">
+          <PasswordChecks
+            password={password}
+            setPassword={setPassword}
+            setIsValid={setIsValid}
+          />
+        </div>
+        <button
+          className={`submit ${
+            isValid && password != "" && email != "" ? "active" : "inactive"
+          }`}
+          onClick={() => {
+            if (isValid && password != "" && email != "") {
+              handleSubmit();
+            }
+          }}
+        >
+          Login
+        </button>
+      </div>
     </div>
   );
 };

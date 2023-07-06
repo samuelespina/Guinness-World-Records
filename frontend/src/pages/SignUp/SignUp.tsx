@@ -32,40 +32,46 @@ const SignUp = () => {
 
   return (
     <div className="sign-up-page">
+      <h1>Sign-up page</h1>
+
       <div className="form">
-        <h1>Sign-up page</h1>
-        <label htmlFor="user_name">name</label>
-        <input
-          type="text"
-          placeholder="Enter your name"
-          name="user_name"
-          onChange={(e) => {
-            setUser_name(e.target.value);
-          }}
-        />
+        <div className="input">
+          <label htmlFor="user_name">name</label>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            name="user_name"
+            onChange={(e) => {
+              setUser_name(e.target.value);
+            }}
+          />
+        </div>
 
-        <label htmlFor="email">email</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          name="email"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-
-        <PasswordChecks
-          password={password}
-          setPassword={setPassword}
-          setIsValid={setIsValid}
-        />
+        <div className="input">
+          <label htmlFor="email">email</label>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </div>
+        <div className="input">
+          <PasswordChecks
+            password={password}
+            setPassword={setPassword}
+            setIsValid={setIsValid}
+          />
+        </div>
 
         <button
           className={`submit ${
             isValid && user_name != "" && email != "" ? "active" : "inactive"
           }`}
           onClick={() => {
-            if (isValid) {
+            if (isValid && user_name != "" && email != "") {
               handleSubmit();
             }
           }}

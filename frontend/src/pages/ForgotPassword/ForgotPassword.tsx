@@ -31,25 +31,30 @@ const ForgotPassword = () => {
   return (
     <div className="forgot-password-page">
       <h1>Forgot password</h1>
-      <label htmlFor="email">email</label>
-      <input
-        type="email"
-        placeholder="Enter your email"
-        name="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
-      <button
-        className={`submit ${email != "" ? "active" : "inactive"}`}
-        value={"submit"}
-        onClick={() => {
-          if (email != "") {
-            handleSubmit();
-          }
-        }}
-      >
-        {validationCode}
-      </button>
+
+      <div className="form">
+        <div className="input">
+          <label htmlFor="email">email</label>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+        <button
+          className={`submit ${email != "" ? "active" : "inactive"}`}
+          value={"submit"}
+          onClick={() => {
+            if (email != "") {
+              handleSubmit();
+            }
+          }}
+        >
+          {validationCode}
+        </button>
+      </div>
     </div>
   );
 };

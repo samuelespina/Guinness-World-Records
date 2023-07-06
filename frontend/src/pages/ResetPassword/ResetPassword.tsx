@@ -22,34 +22,38 @@ const ResetPassword = () => {
   return (
     <div className="reset-password">
       <h1>Reset your password</h1>
-      <PasswordChecks
-        password={password}
-        setPassword={setPassword}
-        setIsValid={setIsValid}
-      />
-      <button
-        className={`submit ${isValid ? "active" : "inactive"}`}
-        onClick={() => {
-          if (isValid) {
-            handleSubmit();
-          }
-        }}
-      >
-        submit
-      </button>
+      <div className="form">
+        <div className="input">
+          <PasswordChecks
+            password={password}
+            setPassword={setPassword}
+            setIsValid={setIsValid}
+          />
+        </div>
 
-      <p className="show-message" ref={showError}>
-        La tua password è stata aggirnata, torna alla{" "}
-        <p
+        <button
+          className={`submit ${isValid ? "active" : "inactive"}`}
           onClick={() => {
-            navigate("/login");
+            if (isValid) {
+              handleSubmit();
+            }
           }}
         >
-          pagina di login
-        </p>{" "}
-        ed inserisci i tuoi dati per vedere tutti i tui record preferiti
-      </p>
-      <p>account to reset : {email}</p>
+          submit
+        </button>
+
+        <p className="show-message" ref={showError}>
+          La tua password è stata aggirnata, torna alla{" "}
+          <p
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            pagina di login
+          </p>{" "}
+          ed inserisci i tuoi dati per vedere tutti i tui record preferiti
+        </p>
+      </div>
     </div>
   );
 };

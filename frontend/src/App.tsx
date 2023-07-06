@@ -3,6 +3,7 @@ import { Navbar, Footer } from "./components";
 import {
   ForgotPassword,
   HomePage,
+  LanguageDescription,
   LogIn,
   RecoveryPassword,
   ResetPassword,
@@ -26,6 +27,11 @@ const App = () => {
           <Navbar />
           <main>
             <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route
+                path="/programming-languages/:id"
+                element={<LanguageDescription />}
+              />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />

@@ -1,0 +1,12 @@
+.navbar-wrapper {
+  width: 100vw;
+  height: 5rem;
+  background-color: blue;
+  .navbar {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

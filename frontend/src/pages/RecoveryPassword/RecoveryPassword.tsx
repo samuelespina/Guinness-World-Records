@@ -26,27 +26,32 @@ const RecoveryPassword = () => {
   return (
     <div className="recovery-password">
       <h1>Recovery password</h1>
-      <label htmlFor=" validation_code">validation code</label>
-      <input
-        type="text"
-        placeholder="insert your validation code"
-        onChange={(e) => {
-          setValidationCode(e.target.value);
-        }}
-      />
-      <button
-        value={"submit"}
-        onClick={() => {
-          handleSubmit();
-        }}
-      >
-        submit
-      </button>
-      <p className="show-message" ref={showMessage}>
-        Non è stata ritrovata corrispondenza tra l'email e il codice inserito,
-        riprovare
-      </p>
-      <p style={{ border: "3px solid red" }}>email by ricovery : {email}</p>
+      <div className="form">
+        <div className="input">
+          <label htmlFor=" validation_code">validation code</label>
+          <input
+            type="text"
+            placeholder="insert your validation code"
+            onChange={(e) => {
+              setValidationCode(e.target.value);
+            }}
+          />
+        </div>
+
+        <button
+          className="submit"
+          value={"submit"}
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
+          submit
+        </button>
+        <p className="show-message" ref={showMessage}>
+          Non è stata ritrovata corrispondenza tra l'email e il codice inserito,
+          riprovare
+        </p>
+      </div>
     </div>
   );
 };

@@ -30,6 +30,62 @@ const forgotPasswordDb = mysql.createConnection({
   database: "forgot_password",
 });
 
+const infoProg = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "info",
+});
+
+app.get("/get-programming-languages", (req, res) => {
+  const sql = `SELECT prog_name FROM prog_descriptions`;
+  infoProg.query(sql, (err, data) => {
+    if (err) return res.json(err);
+    if (data.length > 0) {
+      const allLanguages = [];
+      for (i = 0; i < data.length; i++) {
+        allLanguages.push(data[i].prog_name);
+      }
+      res.send(allLanguages);
+    } else {
+      res.send(false);
+    }
+  });
+});
+
+app.get("/get-usages", (req, res) => {
+  const sql = `SELECT usages FROM languages_usages`;
+  infoProg.query(sql, (err, data) => {
+    if (err) return res.json(err);
+    if (data.length > 0) {
+      console.log("true");
+      const usages = [];
+
+      for (i = 0; i < data.length; i++) {
+        usages.push(data[i].usages);
+      }
+      console.log(usages);
+      res.send(usages);
+    } else {
+      res.send(false);
+    }
+  });
+});
+
+app.post("/get-description", (req, res) => {
+  const sql = `SELECT description FROM prog_descriptions WHERE prog_name = ?`;
+  const values = [req.body.id];
+  infoProg.query(sql, [values], (err, data) => {
+    if (err) console.log(err);
+    if (data.length > 0) {
+      const description = data[0].description;
+      res.send(description);
+    } else {
+      res.send(false);
+    }
+  });
+});
+
 app.post("/signup", (req, res) => {
   const sql = "INSERT INTO users (`user_name`, `email`, `password`) Values (?)";
   const values = [req.body.user_name, req.body.email, md5(req.body.password)];
@@ -126,10 +182,6 @@ app.post("/reset-password", (req, res) => {
     if (err) return res.json(err);
     res.send(true);
   });
-});
-
-app.get("/", (req, res) => {
-  res.send("server is running");
 });
 
 app.listen(8081);

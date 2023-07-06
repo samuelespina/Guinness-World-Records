@@ -37,6 +37,7 @@ const PasswordChecks = (props: PasswordChecksInterface) => {
         }}
       />
       <button
+        className="look"
         onMouseDown={() => {
           setTypeInput(true);
         }}
@@ -48,21 +49,39 @@ const PasswordChecks = (props: PasswordChecksInterface) => {
       </button>
 
       <div className="validation-fields">
-        <p className={lower.test(props.password) ? "active" : "inactive"}>
+        <p
+          className={`validation-field ${
+            lower.test(props.password) ? "active" : "inactive"
+          }`}
+        >
           At least one lowercase letter
         </p>
-        <p className={upper.test(props.password) ? "active" : "inactive"}>
+        <p
+          className={`validation-field ${
+            upper.test(props.password) ? "active" : "inactive"
+          }`}
+        >
           At least one uppercase letter
         </p>
-        <p className={number.test(props.password) ? "active" : "inactive"}>
+        <p
+          className={`validation-field ${
+            number.test(props.password) ? "active" : "inactive"
+          }`}
+        >
           At least one number
         </p>
         <p
-          className={specialChars.test(props.password) ? "active" : "inactive"}
+          className={`validation-field ${
+            specialChars.test(props.password) ? "active" : "inactive"
+          }`}
         >
           At least one special character
         </p>
-        <p className={minLength.test(props.password) ? "active" : "inactive"}>
+        <p
+          className={`validation-field ${
+            minLength.test(props.password) ? "active" : "inactive"
+          }`}
+        >
           At least 8 characters
         </p>
       </div>
