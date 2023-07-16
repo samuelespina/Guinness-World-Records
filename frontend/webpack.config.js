@@ -38,7 +38,7 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        // { from: "./src/images", to: "./images" },
+        { from: "./src/images", to: "./images" },
         { from: "./netlify.toml", to: "./" },
         // { from: "./src/fonts", to: "./fonts" },
       ],

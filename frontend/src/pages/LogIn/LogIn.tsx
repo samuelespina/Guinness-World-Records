@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { PasswordChecks } from "../../components";
+import { BubbleBackground, InputComponent } from "../../components";
 
 const LogIn = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const showMessage = useRef<HTMLInputElement>(null);
-  const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleSubmit = () => {
     axios
@@ -21,33 +20,32 @@ const LogIn = () => {
 
   return (
     <div className="log-in-page">
-      <h1>Log-in page </h1>
-
+      <BubbleBackground />
       <div className="form" ref={showMessage}>
+        <h1>Log-in page </h1>
         <div className="input">
-          <label htmlFor="email">email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            name="email"
+          <InputComponent
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            setValue={setEmail}
+            ChecksOn={false}
+            fieldName="email"
           />
         </div>
 
         <div className="input">
-          <PasswordChecks
-            password={password}
-            setPassword={setPassword}
-            setIsValid={setIsValid}
+          <InputComponent
+            value={password}
+            ChecksOn={false}
+            fieldName="password"
+            setValue={setPassword}
           />
         </div>
         <button
           className={`submit ${
-            isValid && password != "" && email != "" ? "active" : "inactive"
+            password != "" && email != "" ? "active" : "inactive"
           }`}
           onClick={() => {
-            if (isValid && password != "" && email != "") {
+            if (password != "" && email != "") {
               handleSubmit();
             }
           }}

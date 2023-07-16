@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { RecoveryContext } from "../../RecoveyContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { BubbleBackground, InputComponent } from "../../components";
 
 const RecoveryPassword = () => {
   const { email } = useContext(RecoveryContext);
@@ -25,22 +26,20 @@ const RecoveryPassword = () => {
 
   return (
     <div className="recovery-password">
-      <h1>Recovery password</h1>
+      <BubbleBackground />
       <div className="form">
+        {" "}
+        <h1>Recovery password</h1>
         <div className="input">
-          <label htmlFor=" validation_code">validation code</label>
-          <input
-            type="text"
-            placeholder="insert your validation code"
-            onChange={(e) => {
-              setValidationCode(e.target.value);
-            }}
+          <InputComponent
+            value={validationCode}
+            fieldName="code"
+            ChecksOn={false}
+            setValue={setValidationCode}
           />
         </div>
-
         <button
-          className="submit"
-          value={"submit"}
+          className={`submit ${validationCode !== "" ? "active" : "inactive"}`}
           onClick={() => {
             handleSubmit();
           }}

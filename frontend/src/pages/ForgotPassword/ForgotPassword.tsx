@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { RecoveryContext } from "../../RecoveyContext";
 import { useNavigate } from "react-router";
+import { BubbleBackground, InputComponent } from "../../components";
 
 const ForgotPassword = () => {
   const { email, setEmail } = useContext(RecoveryContext);
@@ -30,17 +31,16 @@ const ForgotPassword = () => {
 
   return (
     <div className="forgot-password-page">
-      <h1>Forgot password</h1>
+      <BubbleBackground />
 
       <div className="form">
+        <h1>Forgot password</h1>
         <div className="input">
-          <label htmlFor="email">email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            name="email"
+          <InputComponent
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            setValue={setEmail}
+            ChecksOn={false}
+            fieldName="email"
           />
         </div>
         <button
@@ -52,7 +52,7 @@ const ForgotPassword = () => {
             }
           }}
         >
-          {validationCode}
+          submit
         </button>
       </div>
     </div>

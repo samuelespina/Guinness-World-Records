@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
 import { RecoveryContext } from "../../RecoveyContext";
-import { PasswordChecks } from "../../components";
+import { BubbleBackground, InputComponent } from "../../components";
 import { useNavigate } from "react-router";
 
 const ResetPassword = () => {
@@ -21,12 +21,16 @@ const ResetPassword = () => {
 
   return (
     <div className="reset-password">
-      <h1>Reset your password</h1>
+      <BubbleBackground />
+
       <div className="form">
+        <h1>Reset your password</h1>
         <div className="input">
-          <PasswordChecks
-            password={password}
-            setPassword={setPassword}
+          <InputComponent
+            value={password}
+            ChecksOn={true}
+            fieldName="password"
+            setValue={setPassword}
             setIsValid={setIsValid}
           />
         </div>

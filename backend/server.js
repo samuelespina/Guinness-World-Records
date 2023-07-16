@@ -1,6 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
-const cors = require("cors");
+const cors = require("cors"); //sicurezza sulle api create
 var md5 = require("md5");
 var nodemailer = require("nodemailer");
 
@@ -14,13 +14,13 @@ const transporter = nodemailer.createTransport({
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); //il body della res e della req delle api sono già formattate in json
 
-const userdb = mysql.createConnection({
+const prog_diary = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "signup_login",
+  database: "prog_diary",
 });
 
 const forgotPasswordDb = mysql.createConnection({
@@ -89,7 +89,7 @@ app.post("/get-description", (req, res) => {
 app.post("/signup", (req, res) => {
   const sql = "INSERT INTO users (`user_name`, `email`, `password`) Values (?)";
   const values = [req.body.user_name, req.body.email, md5(req.body.password)];
-  userdb.query(sql, [values], (err, data) => {
+  prog_diary.query(sql, [values], (err, data) => {
     if (err) return res.json(err);
     res.send(true);
   });
@@ -97,14 +97,18 @@ app.post("/signup", (req, res) => {
 
 app.post("/login", (req, res) => {
   const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-  userdb.query(sql, [req.body.email, md5(req.body.password)], (err, data) => {
-    if (err) return res.json("Error");
-    if (data.length > 0) {
-      res.send(true);
-    } else {
-      res.send(false);
+  prog_diary.query(
+    sql,
+    [req.body.email, md5(req.body.password)],
+    (err, data) => {
+      if (err) return res.json("Error");
+      if (data.length > 0) {
+        res.send(true);
+      } else {
+        res.send(false);
+      }
     }
-  });
+  );
 });
 
 app.post("/forgot-password", (req, res) => {
@@ -115,13 +119,13 @@ app.post("/forgot-password", (req, res) => {
   const date = Date.now() + 60000;
   const values2 = [req.body.email, req.body.validationCode, date];
 
-  forgotPasswordDb.query(sql1, [values1], (err, data) => {
+  prog_diary.query(sql1, [values1], (err, data) => {
     if (err) {
       return res.json(err);
     }
   });
 
-  forgotPasswordDb.query(sql2, [values2], (err, data) => {
+  prog_diary.query(sql2, [values2], (err, data) => {
     if (err) return res.send(err);
 
     const mailOptions = {
@@ -145,7 +149,7 @@ app.post("/forgot-password", (req, res) => {
 
 app.post("/recovery-password", (req, res) => {
   const sql = `SELECT * FROM recovery_data WHERE email  = ? AND validation_code = ?`;
-  forgotPasswordDb.query(
+  prog_diary.query(
     sql,
     [req.body.email, req.body.validationCode],
     (err, data) => {
@@ -178,10 +182,14 @@ app.post("/recovery-password", (req, res) => {
 
 app.post("/reset-password", (req, res) => {
   const sql = `UPDATE users SET password = ? WHERE email = ?`;
-  userdb.query(sql, [md5(req.body.password), req.body.email], (err, data) => {
-    if (err) return res.json(err);
-    res.send(true);
-  });
+  prog_diary.query(
+    sql,
+    [md5(req.body.password), req.body.email],
+    (err, data) => {
+      if (err) return res.json(err);
+      res.send(true);
+    }
+  );
 });
 
 app.listen(8081);

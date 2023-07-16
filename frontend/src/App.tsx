@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Navbar, Footer } from "./components";
+import { Navbar, Footer, BubbleBackground } from "./components";
 import {
   ForgotPassword,
   HomePage,
@@ -32,7 +32,9 @@ const App = () => {
                 path="/programming-languages/:id"
                 element={<LanguageDescription />}
               />
+
               <Route path="/signup" element={<SignUp />} />
+
               <Route path="/login" element={<LogIn />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/recovery-password" element={<RecoveryPassword />} />

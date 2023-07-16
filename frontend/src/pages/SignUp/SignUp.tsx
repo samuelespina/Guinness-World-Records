@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { PasswordChecks } from "../../components";
+import { BubbleBackground, InputComponent } from "../../components";
 
 const SignUp = () => {
   const [user_name, setUser_name] = useState<string>("");
@@ -26,42 +26,35 @@ const SignUp = () => {
       .catch((err) => problemText.current.classList.add("active"));
   };
 
-  useEffect(() => {
-    console.log(isValid);
-  }, []);
-
   return (
     <div className="sign-up-page">
-      <h1>Sign-up page</h1>
-
+      <BubbleBackground />
       <div className="form">
+        <h1>Signup</h1>
         <div className="input">
-          <label htmlFor="user_name">name</label>
-          <input
-            type="text"
-            placeholder="Enter your name"
-            name="user_name"
-            onChange={(e) => {
-              setUser_name(e.target.value);
-            }}
+          <InputComponent
+            value={user_name}
+            setValue={setUser_name}
+            ChecksOn={false}
+            fieldName="username"
           />
         </div>
 
         <div className="input">
-          <label htmlFor="email">email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            name="email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+          <InputComponent
+            value={email}
+            ChecksOn={false}
+            fieldName="email"
+            setValue={setEmail}
           />
         </div>
+
         <div className="input">
-          <PasswordChecks
-            password={password}
-            setPassword={setPassword}
+          <InputComponent
+            value={password}
+            ChecksOn={true}
+            fieldName="password"
+            setValue={setPassword}
             setIsValid={setIsValid}
           />
         </div>

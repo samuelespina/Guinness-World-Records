@@ -1,12 +1,81 @@
 .navbar-wrapper {
   width: 100vw;
   height: 5rem;
-  background-color: blue;
+  position: fixed;
+  top: 0;
+  left: 0;
   .navbar {
     height: 100%;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    position: relative;
+
+    .menu {
+      position: absolute;
+      align-items: center;
+      width: 5rem;
+      height: 5rem;
+      background: rgb(4, 251, 202);
+      background: radial-gradient(
+        circle,
+        rgba(4, 251, 202, 1) 0%,
+        rgba(4, 251, 147, 1) 100%
+      );
+      border-radius: 3rem;
+      top: 0;
+      left: 0;
+      transition: all 0.5s ease-in-out;
+      overflow: hidden;
+      .icon {
+        opacity: 1;
+        padding: 1.8rem 0 1.8rem 0;
+        text-align: center;
+        width: 100%;
+        height: 5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .sticks {
+          width: 2rem;
+          border: 2px solid black;
+          margin-bottom: 0.3rem;
+          border-radius: 0.5rem;
+        }
+      }
+
+      button,
+      p {
+        opacity: 0;
+        width: 100%;
+        text-align: center;
+        padding: 0.3rem 0 0.3rem 0;
+        transition: all 0.5s ease-in-out;
+      }
+
+      &.active {
+        height: 13rem;
+
+        button,
+        p {
+          opacity: 1;
+        }
+      }
+    }
+
+    .generals-info {
+      width: calc(100vw - 6rem);
+      height: 5rem;
+      background: rgb(4, 251, 202);
+      background: radial-gradient(
+        circle,
+        rgba(4, 251, 202, 1) 0%,
+        rgba(4, 251, 147, 1) 100%
+      );
+      border-radius: 3rem 0 0 3rem;
+    }
   }
 }
