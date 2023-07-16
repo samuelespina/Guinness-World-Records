@@ -56,7 +56,7 @@ const Navbar = () => {
               getLanguages();
             }}
           >
-            langudio
+            languages
           </p>
 
           <p>
