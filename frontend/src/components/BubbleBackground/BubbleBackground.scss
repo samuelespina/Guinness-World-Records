@@ -4,11 +4,11 @@
   position: absolute;
   .bubble {
     aspect-ratio: 1/1;
-    background: rgb(4, 251, 202);
+    background: rgb(191, 129, 255);
     background: radial-gradient(
       circle,
-      rgba(4, 251, 202, 1) 0%,
-      rgba(4, 251, 147, 1) 100%
+      rgba(191, 129, 255, 1) 0%,
+      rgba(171, 88, 255, 1) 100%
     );
     border-radius: 50%;
     position: absolute;

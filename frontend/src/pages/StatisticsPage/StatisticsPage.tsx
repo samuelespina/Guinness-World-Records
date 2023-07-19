@@ -18,6 +18,9 @@ const StatisticsPage = () => {
         {
           label: "percentage of users",
           data: (statistics ? statistics : []).map((elem) => elem.percentage),
+          backgroundColor: ["#d0a2ff"],
+          borderColor: "black",
+          borderWidth: 2,
         },
       ],
     },
@@ -36,6 +39,9 @@ const StatisticsPage = () => {
             {
               label: "percentage of users",
               data: statistics.map((elem) => elem.percentage),
+              backgroundColor: ["#d0a2ff"],
+              borderColor: "black",
+              borderWidth: 2,
             },
           ],
         },

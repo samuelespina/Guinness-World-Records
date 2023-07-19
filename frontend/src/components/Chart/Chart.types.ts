@@ -4,6 +4,9 @@ export interface ChartIterface {
     datasets: {
       label: string;
       data: Array<number>;
+      backgroundColor: Array<string>;
+      borderColor: string;
+      borderWidth: number;
     }[];
   };
 }
