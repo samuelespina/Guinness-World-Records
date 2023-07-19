@@ -109,6 +109,7 @@ const Navbar = () => {
                         "/programming-languages/" + encodeURIComponent(elem)
                       );
                       setMenuStatus(false);
+                      SetToggleIconStatus(false);
                     }}
                   >
                     {elem}
@@ -132,6 +133,7 @@ const Navbar = () => {
                         );
                         getRelatedLanguages(elem);
                         setMenuStatus(false);
+                        SetToggleIconStatus(false);
                       }}
                     >
                       {elem}
@@ -167,6 +169,7 @@ const Navbar = () => {
                     onClick={() => {
                       navigate("/statistics/" + encodeURIComponent(elem));
                       setMenuStatus(false);
+                      SetToggleIconStatus(false);
                     }}
                   >
                     {elem}
