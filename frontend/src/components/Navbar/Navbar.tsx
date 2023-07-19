@@ -1,3 +1,4 @@
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
@@ -9,6 +10,10 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [menuStatus, setMenuStatus] = useState<boolean>(false);
   const [relatedLanguages, setRelatedLanguages] = useState<Array<string>>([]);
+  const [fetchStatus, setFetchStatus] = useState<boolean>(false);
+  const [whatToFatch, setWhatToFatch] = useState<number>(0);
+  const [title, setTitle] = useState<number>(0);
+  const [toggleIconStatus, SetToggleIconStatus] = useState<boolean>(false);
 
   const getLanguages = () => {
     axios
@@ -47,108 +52,150 @@ const Navbar = () => {
           : {}
       }
     >
-      <div className="menu">
+      <div className={`menu ${fetchStatus ? "active" : "inactive"}`}>
         <div className="navbar">
+          <FontAwesomeIcon
+            icon={faHouse}
+            onClick={() => {
+              navigate("/");
+              setMenuStatus(false);
+            }}
+          />
+
           <h2
+            className={`title ${title === 1 ? "active" : "inactive"}`}
             onClick={() => {
               getLanguages();
+              setFetchStatus(true);
+              setWhatToFatch(1);
+              setTitle(1);
             }}
           >
-            languages
+            LANGUAGES
           </h2>
-
-          <div>
-            {allLanguages.map((elem) => {
-              return (
-                <p
-                  onClick={() => {
-                    navigate(
-                      "/programming-languages/" + encodeURIComponent(elem)
-                    );
-                  }}
-                >
-                  {elem}
-                </p>
-              );
-            })}
-          </div>
 
           <h2
+            className={`title ${title === 2 ? "active" : "inactive"}`}
             onClick={() => {
               getUsages();
+              setFetchStatus(true);
+              setWhatToFatch(2);
+              setTitle(2);
             }}
           >
-            usages
+            USAGES
           </h2>
 
-          <div>
-            {usages.map((elem) => {
-              return (
-                <>
+          <h2
+            className={`title ${title === 3 ? "active" : "inactive"}`}
+            onClick={() => {
+              getLanguages();
+              setFetchStatus(true);
+              setWhatToFatch(3);
+              setTitle(3);
+            }}
+          >
+            STATISTICS
+          </h2>
+        </div>
+        <div className="fetch">
+          {whatToFatch === 1 ? (
+            <div>
+              {allLanguages.map((elem) => {
+                return (
                   <p
                     onClick={() => {
-                      navigate("/technical-field/" + encodeURIComponent(elem));
-                      getRelatedLanguages(elem);
+                      navigate(
+                        "/programming-languages/" + encodeURIComponent(elem)
+                      );
+                      setMenuStatus(false);
                     }}
                   >
                     {elem}
                   </p>
-                  <p>
-                    {relatedLanguages.map((elem) => {
-                      return (
-                        <p
-                          onClick={() => {
-                            navigate(
-                              "/programming-languages/" +
-                                encodeURIComponent(elem)
-                            );
-                          }}
-                        >
-                          {elem}
-                        </p>
-                      );
-                    })}
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
+
+          {whatToFatch === 2 ? (
+            <div>
+              {usages.map((elem) => {
+                return (
+                  <>
+                    <p
+                      onClick={() => {
+                        navigate(
+                          "/technical-field/" + encodeURIComponent(elem)
+                        );
+                        getRelatedLanguages(elem);
+                        setMenuStatus(false);
+                      }}
+                    >
+                      {elem}
+                    </p>
+                    <p>
+                      {relatedLanguages.map((elem) => {
+                        return (
+                          <p
+                            onClick={() => {
+                              navigate(
+                                "/programming-languages/" +
+                                  encodeURIComponent(elem)
+                              );
+                            }}
+                          >
+                            {elem}
+                          </p>
+                        );
+                      })}
+                    </p>
+                  </>
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
+          {whatToFatch === 3 ? (
+            <div>
+              {allLanguages.map((elem) => {
+                return (
+                  <p
+                    onClick={() => {
+                      navigate("/statistics/" + encodeURIComponent(elem));
+                      setMenuStatus(false);
+                    }}
+                  >
+                    {elem}
                   </p>
-                </>
-              );
-            })}
-          </div>
-
-          <h2
-            onClick={() => {
-              getLanguages();
-            }}
-          >
-            statistics
-          </h2>
-
-          <div>
-            {allLanguages.map((elem) => {
-              return (
-                <p
-                  onClick={() => {
-                    navigate("/statistics/" + encodeURIComponent(elem));
-                  }}
-                >
-                  {elem}
-                </p>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
       <div className={`cover ${menuStatus ? "active" : "inactive"}`}>
         <div
-          className="toggle-icon-wrapper"
+          className={`toggle-icon-wrapper ${
+            toggleIconStatus ? "active" : "inactive"
+          }`}
           onClick={() => {
+            toggleIconStatus
+              ? SetToggleIconStatus(false)
+              : SetToggleIconStatus(true);
             menuStatus ? setMenuStatus(false) : setMenuStatus(true);
           }}
         >
           <div className="toggle-icon">
-            <div className="stick"></div>
-            <div className="stick"></div>
-            <div className="stick"></div>
+            <div className="stick one"></div>
+            <div className="stick two"></div>
+            <div className="stick three"></div>
           </div>
         </div>
       </div>
