@@ -18,11 +18,7 @@ const SignUp = () => {
         email,
         password,
       })
-      .then((res) =>
-        res.data
-          ? navigate("/login")
-          : problemText.current.classList.add("active")
-      )
+      .then((res) => !res.data && problemText.current.classList.add("active"))
       .catch((err) => problemText.current.classList.add("active"));
   };
 

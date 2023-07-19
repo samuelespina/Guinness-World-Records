@@ -7,8 +7,8 @@ var nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "recoveryservice404@gmail.com",
-    pass: "szriaupkywnnglfv",
+    user: "recoveryserviceprd@gmail.com",
+    pass: "bzxbosgxxmswtjrl",
   },
 });
 
@@ -23,28 +23,14 @@ const prog_diary = mysql.createConnection({
   database: "prog_diary",
 });
 
-const forgotPasswordDb = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "forgot_password",
-});
-
-const infoProg = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "info",
-});
-
 app.get("/get-programming-languages", (req, res) => {
-  const sql = `SELECT prog_name FROM prog_descriptions`;
-  infoProg.query(sql, (err, data) => {
+  const sql = `SELECT	prog_languages_name FROM prog_languages`;
+  prog_diary.query(sql, (err, data) => {
     if (err) return res.json(err);
     if (data.length > 0) {
       const allLanguages = [];
       for (i = 0; i < data.length; i++) {
-        allLanguages.push(data[i].prog_name);
+        allLanguages.push(data[i].prog_languages_name);
       }
       res.send(allLanguages);
     } else {
@@ -54,17 +40,15 @@ app.get("/get-programming-languages", (req, res) => {
 });
 
 app.get("/get-usages", (req, res) => {
-  const sql = `SELECT usages FROM languages_usages`;
-  infoProg.query(sql, (err, data) => {
+  const sql = `SELECT usages FROM prog_languages_usages`;
+  prog_diary.query(sql, (err, data) => {
     if (err) return res.json(err);
     if (data.length > 0) {
-      console.log("true");
       const usages = [];
 
       for (i = 0; i < data.length; i++) {
         usages.push(data[i].usages);
       }
-      console.log(usages);
       res.send(usages);
     } else {
       res.send(false);
@@ -73,13 +57,59 @@ app.get("/get-usages", (req, res) => {
 });
 
 app.post("/get-description", (req, res) => {
-  const sql = `SELECT description FROM prog_descriptions WHERE prog_name = ?`;
+  const sql = `SELECT description FROM prog_languages WHERE prog_languages_name = ?`;
   const values = [req.body.id];
-  infoProg.query(sql, [values], (err, data) => {
+  prog_diary.query(sql, [values], (err, data) => {
     if (err) console.log(err);
     if (data.length > 0) {
       const description = data[0].description;
       res.send(description);
+    } else {
+      res.send(false);
+    }
+  });
+});
+
+app.post("/get-related-languages", (req, res) => {
+  const sql = `SELECT prog_languages.prog_languages_name
+  FROM prog_languages
+  INNER JOIN languages_usages
+  ON prog_languages.prog_languages_id = languages_usages.prog_languages_id
+  INNER JOIN prog_languages_usages
+  ON prog_languages_usages.usages_id = languages_usages.usages_id AND prog_languages_usages.usages= ? `;
+  const values = [req.body.usage];
+  prog_diary.query(sql, [values], (err, data) => {
+    if (err) console.log(err);
+    if (data.length > 0) {
+      const relatedLanguages = [];
+      for (i = 0; i < data.length; i++) {
+        relatedLanguages.push(data[i].prog_languages_name);
+      }
+      res.send(relatedLanguages);
+    } else {
+      res.send(false);
+    }
+  });
+});
+
+app.post("/get-statistics", (req, res) => {
+  const sql = `SELECT statistic_percentage, statistic_year
+  FROM statistics
+  WHERE prog_language_name = ?
+  GROUP BY statistic_year ASC`;
+  const values = [req.body.id];
+  prog_diary.query(sql, [values], (err, data) => {
+    if (err) console.log(err);
+    if (data.length > 0) {
+      const statistics = [];
+      for (let i = 0; i < data.length; i++) {
+        statistics.push({
+          percentage: data[i].statistic_percentage,
+          year: data[i].statistic_year,
+        });
+      }
+      console.log(statistics);
+      res.send(statistics);
     } else {
       res.send(false);
     }
@@ -121,7 +151,7 @@ app.post("/forgot-password", (req, res) => {
 
   prog_diary.query(sql1, [values1], (err, data) => {
     if (err) {
-      return res.json(err);
+      return console.log(err);
     }
   });
 

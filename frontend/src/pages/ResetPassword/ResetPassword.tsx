@@ -8,7 +8,6 @@ const ResetPassword = () => {
   const { email } = useContext(RecoveryContext);
   const [password, setPassword] = useState<string>("");
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [typeInput, setTypeInput] = useState<boolean>(false);
   const showError = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 

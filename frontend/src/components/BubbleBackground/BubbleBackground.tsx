@@ -29,16 +29,18 @@ const BubbleBackground = () => {
 
   const addBubble = () => {
     //genera la bolla
-    let div = document.createElement("div"); //crea il div della bolla
-    div.className = "bubble"; //si aggiunge la classe per dare lo stile
-    div.style.left = `${getRandomNumberStartPoint()}vw`; //si imposta randomicamente left della bolla
-    div.style.width = `${getRandomNumberWith()}vw`; //si imposta randomicamente la width della bolla
-    bubbleBackgroundRef.current.appendChild(div); //si appende il div della bolla dentro il contenitore tramite il .current del suo ref
+    if (bubbleBackgroundRef.current) {
+      let div = document.createElement("div"); //crea il div della bolla
+      div.className = "bubble"; //si aggiunge la classe per dare lo stile
+      div.style.left = `${getRandomNumberStartPoint()}vw`; //si imposta randomicamente left della bolla
+      div.style.width = `${getRandomNumberWith()}vw`; //si imposta randomicamente la width della bolla
+      bubbleBackgroundRef.current.appendChild(div); //si appende il div della bolla dentro il contenitore tramite il .current del suo ref
 
-    setTimeout(() => {
-      //dopo la creazione della bolla il suo div viene rimosso dopo 10 secondi
-      div.remove();
-    }, 12000);
+      setTimeout(() => {
+        //dopo la creazione della bolla il suo div viene rimosso dopo 10 secondi
+        div.remove();
+      }, 12000);
+    }
   };
 
   useEffect(() => {
@@ -75,7 +77,7 @@ const BubbleBackground = () => {
         addBubble();
       }, 6000); //creata una bolla dopo 6 secondi
     }, 7000);
-  }, [numbers]);
+  }, [numbers, bubbleBackgroundRef.current]);
 
   return <div className="bubble-background" ref={bubbleBackgroundRef}></div>;
 };

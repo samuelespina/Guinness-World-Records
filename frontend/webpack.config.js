@@ -5,6 +5,7 @@ module.exports = {
   mode: "development",
   entry: "./src/main.tsx",
   devtool: "inline-source-map",
+
   output: {
     path: path.join(__dirname, "/public/build"),
     filename: "bundle.js",
@@ -30,7 +31,12 @@ module.exports = {
       },
     ],
   },
-  resolve: { extensions: [".tsx", ".ts", ".js", ".otf"] },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js", ".otf"],
+    fallback: {
+      browser: false,
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
