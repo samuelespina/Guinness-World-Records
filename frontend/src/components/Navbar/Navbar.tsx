@@ -59,6 +59,7 @@ const Navbar = () => {
             onClick={() => {
               navigate("/");
               setMenuStatus(false);
+              SetToggleIconStatus(false);
             }}
           />
 
