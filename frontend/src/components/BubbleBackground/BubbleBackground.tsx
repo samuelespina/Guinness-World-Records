@@ -51,23 +51,13 @@ const BubbleBackground = () => {
     setTimeout(() => {
       addBubble();
     }, 4000);
-    setTimeout(() => {
-      addBubble();
-    }, 6000);
 
     setInterval(() => {
       //ogni 7 secondi viene :
-      setTimeout(() => {
-        addBubble();
-      }, 0); //creata una bolla dopo 0 secondi
 
       setTimeout(() => {
         addBubble();
       }, 2000); //creata una bolla dopo 2 secondi
-
-      setTimeout(() => {
-        addBubble();
-      }, 3000); //creata una bolla dopo 3 secondi
 
       setTimeout(() => {
         addBubble();

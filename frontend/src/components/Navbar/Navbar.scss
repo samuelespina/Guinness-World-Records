@@ -6,6 +6,11 @@
   justify-content: center;
   align-items: center;
   transition: all 0.8s ease-in-out;
+  z-index: 10000;
+
+  &.inactive {
+    pointer-events: none;
+  }
 
   .menu {
     height: 100vh;
@@ -22,6 +27,8 @@
     justify-content: center;
     align-items: flex-start;
     box-shadow: 12px 0px 40px -3px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0.5rem 0.5rem 0;
+    pointer-events: auto;
 
     .navbar {
       height: 100%;
@@ -88,7 +95,7 @@
       }
       .fetch {
         width: 70%;
-        border-left: 2px solid rgba(255, 255, 255, 0.1);
+        border-left: 2px solid rgba(255, 255, 255, 0.25);
         p {
           transition: all 0.2s ease-in-out;
           &:hover {
@@ -104,6 +111,7 @@
     height: 100vh;
     transition: all 0.8s ease-in-out;
     .toggle-icon-wrapper {
+      position: relative;
       top: 0;
       left: 0;
       margin-top: 0.2rem;
@@ -121,6 +129,8 @@
         rgba(167, 81, 255, 1) 0%,
         rgba(128, 3, 255, 1) 100%
       );
+      z-index: 100000;
+      pointer-events: auto;
 
       cursor: pointer;
       .toggle-icon {

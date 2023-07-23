@@ -1,16 +1,21 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import ReactMarkdown from "react-markdown";
+import { BubbleBackground } from "../../components";
 
 const LanguageDescription = () => {
   const [description, setDescription] = useState<string>("");
   const { id } = useParams();
   const pathname = useLocation();
+  const pageRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getDescriprion();
-  }, [pathname]);
+    if (pageRef.current) {
+      pageRef.current.scrollTo(0, 0);
+    }
+  }, [pathname, pageRef.current]);
 
   const getDescriprion = () => {
     axios
@@ -22,8 +27,14 @@ const LanguageDescription = () => {
   };
 
   return (
-    <div>
-      <ReactMarkdown>{description}</ReactMarkdown>
+    <div className="language-description">
+      <BubbleBackground />
+      <div className="page" ref={pageRef}>
+        <h1>{id}</h1>
+        <div className="description">
+          <ReactMarkdown>{description}</ReactMarkdown>
+        </div>
+      </div>
     </div>
   );
 };

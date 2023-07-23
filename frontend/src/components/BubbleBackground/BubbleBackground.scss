@@ -2,6 +2,7 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
+  overflow: hidden;
   .bubble {
     aspect-ratio: 1/1;
     background: rgb(191, 129, 255);
@@ -26,6 +27,6 @@
 
   100% {
     width: 8rem;
-    transform: translateY(calc(-100vh - 26rem));
+    transform: translateY(calc(-100vh - 26rem)) translateX(50%);
   }
 }
