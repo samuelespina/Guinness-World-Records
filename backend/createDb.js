@@ -36,7 +36,8 @@ password VARCHAR(32) NOT NULL
 
   const sqlFour = `CREATE TABLE prog_languages_usages(
       usages_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-      usages VARCHAR(50) NOT NULL
+      usages VARCHAR(50) NOT NULL,
+      description TEXT NOT NULL
       )`;
   const sqlFive = `CREATE TABLE statistics(
     statistics_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,

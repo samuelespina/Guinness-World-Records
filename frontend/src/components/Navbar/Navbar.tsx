@@ -1,19 +1,20 @@
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router";
+import { RecoveryContext } from "../../RecoveyContext";
 
 const Navbar = () => {
   const [allLanguages, setAllLanguages] = useState<Array<string>>([]);
   const [usages, setUsages] = useState<Array<string>>([]);
   const navigate = useNavigate();
   const [menuStatus, setMenuStatus] = useState<boolean>(false);
-  const [relatedLanguages, setRelatedLanguages] = useState<Array<string>>([]);
   const [fetchStatus, setFetchStatus] = useState<boolean>(false);
   const [whatToFatch, setWhatToFatch] = useState<number>(0);
   const [title, setTitle] = useState<number>(0);
   const [toggleIconStatus, SetToggleIconStatus] = useState<boolean>(false);
+  const { menuFlag, setMenuFlag } = useContext(RecoveryContext);
 
   const getLanguages = () => {
     axios
@@ -32,12 +33,33 @@ const Navbar = () => {
       .catch((err) => console.log("DIOOOOOOO", err));
   };
 
-  const getRelatedLanguages = (usage: string) => {
-    axios
-      .post("http://localhost:8081/get-related-languages", { usage })
-      .then((res) => setRelatedLanguages(res.data))
-      .catch((err) => console.log(err));
-  };
+  useEffect(() => {
+    if (menuFlag === 1) {
+      setMenuStatus(true);
+      SetToggleIconStatus(true);
+      setTitle(1);
+      setFetchStatus(true);
+      getLanguages();
+      setWhatToFatch(1);
+      setMenuFlag(0);
+    } else if (menuFlag === 2) {
+      setMenuStatus(true);
+      SetToggleIconStatus(true);
+      setTitle(2);
+      setFetchStatus(true);
+      getUsages();
+      setWhatToFatch(2);
+      setMenuFlag(0);
+    } else if (menuFlag === 3) {
+      setMenuStatus(true);
+      SetToggleIconStatus(true);
+      setTitle(3);
+      setFetchStatus(true);
+      getLanguages();
+      setWhatToFatch(3);
+      setMenuFlag(0);
+    }
+  }, [menuFlag]);
 
   return (
     <header
@@ -132,28 +154,11 @@ const Navbar = () => {
                         navigate(
                           "/technical-field/" + encodeURIComponent(elem)
                         );
-                        getRelatedLanguages(elem);
                         setMenuStatus(false);
                         SetToggleIconStatus(false);
                       }}
                     >
                       {elem}
-                    </p>
-                    <p>
-                      {relatedLanguages.map((elem) => {
-                        return (
-                          <p
-                            onClick={() => {
-                              navigate(
-                                "/programming-languages/" +
-                                  encodeURIComponent(elem)
-                              );
-                            }}
-                          >
-                            {elem}
-                          </p>
-                        );
-                      })}
                     </p>
                   </>
                 );

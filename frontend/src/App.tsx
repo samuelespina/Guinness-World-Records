@@ -6,6 +6,7 @@ import {
   LanguageDescription,
   LogIn,
   RecoveryPassword,
+  RelatedUsagePage,
   ResetPassword,
   SignUp,
   StatisticsPage,
@@ -16,13 +17,16 @@ import AOS from "aos";
 
 const App = () => {
   const [email, setEmail] = useState<string>("");
+  const [menuFlag, setMenuFlag] = useState<number>(0);
 
   useEffect(() => {
     console.log(email);
   }, [email]);
 
   return (
-    <RecoveryContext.Provider value={{ email, setEmail }}>
+    <RecoveryContext.Provider
+      value={{ email, setEmail, menuFlag, setMenuFlag }}
+    >
       <div className="app">
         <BrowserRouter>
           <Navbar />
@@ -32,6 +36,10 @@ const App = () => {
               <Route
                 path="/programming-languages/:id"
                 element={<LanguageDescription />}
+              />
+              <Route
+                path="/technical-field/:id"
+                element={<RelatedUsagePage />}
               />
               <Route path="/statistics/:id" element={<StatisticsPage />} />
               <Route path="/signup" element={<SignUp />} />

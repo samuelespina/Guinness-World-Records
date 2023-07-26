@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Marquee from "react-fast-marquee";
 import { Carousel } from "react-responsive-carousel";
 import axios from "axios";
@@ -6,15 +6,20 @@ import { useNavigate } from "react-router-dom";
 import { BubbleBackground } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { RecoveryContext } from "../../RecoveyContext";
 
 const HomePage = () => {
+  const { menuFlag, setMenuFlag } = useContext(RecoveryContext);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  useEffect(() => {
+    console.log(menuFlag);
+  }, [menuFlag]);
 
   return (
     <div className="homepage">
-      <BubbleBackground />
       <div className="hero">
         <div className="column-one">
           <h1>Prog Diary</h1>
@@ -36,18 +41,33 @@ const HomePage = () => {
             <FontAwesomeIcon icon={faBook} />
           </div>
           <div className="circle-info">
-            <div className="info-field one">
+            <div
+              className="info-field one"
+              onClick={() => {
+                setMenuFlag(1);
+              }}
+            >
               <img src="./images/languages.png" alt="" />
               <p>discover languages</p>
             </div>
             <div className="info-field two">
               <div className="second-color"></div>
             </div>
-            <div className="info-field three">
+            <div
+              className="info-field three"
+              onClick={() => {
+                setMenuFlag(2);
+              }}
+            >
               <img src="./images/usages.jpg" alt="" />
               <p>find your branch</p>
             </div>
-            <div className="info-field four">
+            <div
+              className="info-field four"
+              onClick={() => {
+                setMenuFlag(3);
+              }}
+            >
               <img src="./images/statisticsp.png" alt="" />
               <div className="color-cover"></div>
 

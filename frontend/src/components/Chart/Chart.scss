@@ -1,3 +1,10 @@
 .chart {
-  width: 80rem;
+  height: 500px !important;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 3rem;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
 }

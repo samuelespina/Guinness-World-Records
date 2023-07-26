@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { StatisticsPageInterface } from "./StatisticsPage.types";
-import { Chart } from "../../components";
+import { BubbleBackground, Chart } from "../../components";
 import { ChartIterface } from "../../components/Chart/Chart.types";
 
 const StatisticsPage = () => {
@@ -18,7 +18,7 @@ const StatisticsPage = () => {
         {
           label: "percentage of users",
           data: (statistics ? statistics : []).map((elem) => elem.percentage),
-          backgroundColor: ["#d0a2ff"],
+          backgroundColor: [" rgba(167, 81, 255, .5)"],
           borderColor: "black",
           borderWidth: 2,
         },
@@ -39,7 +39,7 @@ const StatisticsPage = () => {
             {
               label: "percentage of users",
               data: statistics.map((elem) => elem.percentage),
-              backgroundColor: ["#d0a2ff"],
+              backgroundColor: [" rgba(167, 81, 255, .5)"],
               borderColor: "black",
               borderWidth: 2,
             },
@@ -58,7 +58,24 @@ const StatisticsPage = () => {
 
   return (
     <div className="statistics-page">
-      {statistics ? <Chart chartInfo={chartData} /> : ""}
+      <BubbleBackground />
+      <div className="page">
+        <h1>{id}</h1>
+        <div className="description">
+          <p className="nb">N.B.*</p>
+          <p>
+            These percentages stand for users who only use this programming
+            language or who use this together with others
+          </p>
+          <p>
+            if the last year in the graph is not the current year, it means that
+            the language has not been used since the last year indicated, it has
+            become a niche language or there are other languages that have
+            replaced it
+          </p>
+        </div>
+        {statistics ? <Chart chartInfo={chartData} /> : ""}
+      </div>
     </div>
   );
 };

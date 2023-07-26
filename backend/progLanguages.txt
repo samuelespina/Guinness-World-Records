@@ -1,4 +1,4 @@
-INSERT INTO prog_languages (prog_languages_name, description) VALUES
+INSERT INTO prog_languages (prog_languages_name, description, language_icon) VALUES
 ("C","
 
 
@@ -49,7 +49,7 @@ It also served as the foundation for several other programming languages.
 Due to its low-level nature, C may require more effort to write complex programs compared to higher-level languages.  
 However, its speed, efficiency, and portability continue to make it a popular choice, especially in system programming and performance-critical applications.  
 Additionally, C has had a significant influence on the development of other programming languages, making it an essential language to learn for any serious programmer.
-"),
+", "devicon-c-plain"),
 ("Java","
 
 
@@ -89,7 +89,7 @@ This is made possible by the JVM, which enables Java applications to be executed
 \
 \
 Java is commonly used in various domains, including web development (with frameworks like Spring and JavaServer Faces), mobile app development (using Android), enterprise applications (with Java EE), big data processing (Apache Hadoop), scientific computing, and more. Its versatility, stability, and portability make it an enduring choice for both beginners and experienced developers.
-"),
+", "devicon-java-plain"),
 ("JavaScript","
 
 JavaScript is a versatile and widely used programming language that primarily operates on the client side in web browsers.  
@@ -141,7 +141,7 @@ Developers need to be mindful of potential vulnerabilities, such as Cross-Site S
 \
 Over the years, JavaScript has grown to become a foundational technology for modern web development.  
 Its versatility, ease of use, and extensive community support have cemented its position as a key language for building interactive and dynamic web applications. Additionally, with the advent of server-side frameworks like Node.js, JavaScript has expanded its reach to the server, making it an even more essential language for full-stack web development.
-"),
+", "devicon-javascript-plain"),
 ("C++","
 
 C++ is a powerful and versatile programming language that was developed as an extension of the popular C programming language.  
@@ -186,7 +186,7 @@ It offers features like pointers and manual memory management, allowing develope
  \
  C++ is commonly used in various domains, including system programming, game development, embedded systems, graphical user interfaces (GUIs), and high-performance applications.  
  It continues to be a popular choice for projects that require performance, control over hardware, and a balance between high-level abstraction and low-level manipulation.
-"),
+", "devicon-cplusplus-plain"),
 ("PHP","
 
 PHP (Hypertext Preprocessor) is a widely used server-side scripting language designed primarily for web development.  
@@ -235,7 +235,7 @@ Additionally, PHP is the foundation for popular content management systems (CMS)
 PHP's popularity can be attributed to its versatility, ease of use, and wide adoption across the web development community.  
 It continues to be an essential language for building dynamic and interactive websites, web applications, and APIs.  
 As technology evolves, PHP also adapts to stay relevant in the rapidly changing web development landscape.
-"),
+", "devicon-php-plain"),
 ("Perl","
 
 Perl is a high-level, interpreted programming language known for its versatility and powerful text-processing capabilities.  
@@ -279,7 +279,7 @@ The extensive documentation, tutorials, and online forums make it easier for beg
 \
 Despite its strengths, Perl's popularity has somewhat declined in recent years, particularly with the rise of other scripting languages and the advent of more modern web development frameworks.  
 However, it remains a valuable tool in certain domains and continues to be a favorite choice for tasks involving text processing and system administration.
-"),
+", "devicon-perl-plain"),
 ("Visual Basic","
 
 Visual Basic (VB) is a popular and widely-used programming language that belongs to the Visual Basic .NET (VB.NET) family.  
@@ -329,7 +329,7 @@ While it can be used for web and mobile development through ASP.NET and Xamarin,
 Overall, Visual Basic is a versatile and approachable programming language, ideal for beginners and those looking to quickly build Windows-based applications.  
 Its ease of use and rich library support make it an excellent choice for small to medium-sized projects and rapid prototyping.  
 However, for more complex and performance-critical applications, some developers might opt for other .NET languages like C#.
-"),
+", "devicon-visualstudio-plain"),
 ("Delphi","
 
 Delphi is a high-level, object-oriented programming language developed by Borland Software Corporation, now owned by Embarcadero Technologies.  
@@ -373,7 +373,7 @@ This facilitates seamless data access and manipulation in applications.
 \
 Delphi has been utilized in various domains, including desktop applications, mobile apps, database applications, scientific and engineering software, and more.  
 Its strengths lie in its ease of use, rapid development capabilities, and the availability of a wide range of third-party components and tools.
-"),
+", "devicon-amazonwebservices-original"),
 ("BASIC","
 
 BASIC (Beginner's All-purpose Symbolic Instruction Code) is a high-level programming language that was developed in the mid-1960s to provide an accessible and user-friendly language for beginners and non-experts.  
@@ -415,7 +415,7 @@ Some notable programming languages, like Visual Basic (VB), originated from BASI
 \
 Though BASIC is no longer as popular as it once was, its legacy persists in various forms, and its concepts continue to influence modern programming languages.  
 It is often recommended as an introductory language to programming due to its simplicity and historical significance.
-"),
+", "devicon-appwrite-plain"),
 ("Pascal","
 
 Pascal is a high-level, procedural programming language designed by Niklaus Wirth in 1970.  
@@ -461,7 +461,7 @@ It also supports enumerations, simplifying the handling of a predefined set of c
 Pascal has influenced many other programming languages and was widely used in the academic and early computing communities.  
 One of its most popular descendants is Object Pascal, used in the Delphi IDE (Integrated Development Environment) by Embarcadero Technologies.  
 Although not as prominent as some modern languages, Pascal's legacy remains significant in the history of computer programming.
-"),
+", "devicon-typo3-plain"),
 ("C#","
 C# (pronounced 'C-sharp') is a modern, object-oriented programming language developed by Microsoft.  
 It was first introduced in 2000 as part of the .NET initiative and has since become one of the most popular languages for building a wide range of applications, from desktop software to web applications, games, and mobile apps.  
@@ -508,7 +508,7 @@ This allows developers to write responsive and efficient applications that can h
 \
 \
 Overall, C# is a versatile, robust, and well-supported programming language that offers a wide range of tools and capabilities for developing diverse applications with ease and efficiency.
-"),
+", "devicon-csharp-plain"),
 ("Python","
 
 Python is a high-level, interpreted, and general-purpose programming language that is widely used for both simple scripting tasks and complex software development.  
@@ -556,7 +556,7 @@ These frameworks streamline the process of building web applications, APIs, and 
 \
 Overall, Python's simplicity, readability, and vast ecosystem of libraries have made it one of the most popular and widely adopted programming languages in the world.  
 Whether you are a beginner or an experienced developer, Python provides a strong foundation for a wide range of applications and domains.
-"),
+", "devicon-python-plain"),
 ("Ruby","
 
 Ruby is a dynamic, object-oriented programming language known for its simplicity and elegance.  
@@ -599,7 +599,7 @@ The Ruby community is active and supportive, with many resources available for l
 Ruby's combination of ease of use, a strong focus on developer happiness, and the power of the Ruby on Rails framework has made it a popular choice for web development, scripting, prototyping, and general-purpose programming tasks.  
 It is especially favored by startups and small to medium-sized businesses due to its productivity and the quick development cycles it enables.  
 However, its popularity extends beyond that as many developers appreciate the joy of coding Ruby brings and its elegant, concise syntax.
-"),
+", "devicon-ruby-plain"),
 ("Matlab","
 
 Matlab is a high-level programming language and interactive environment widely used in scientific and engineering applications.  
@@ -659,7 +659,7 @@ Matlab finds applications in various fields, including:
 \
 Overall, Matlab's ease of use, extensive libraries, and interactive nature make it a popular choice for researchers, engineers, and scientists looking to solve complex mathematical problems and perform data analysis.  
 However, it's essential to consider its licensing costs and performance limitations for computationally intensive tasks when deciding to use Matlab for specific projects.
-"),
+", "devicon-matlab-plain"),
 ("Objective C","
 
 Objective-C is a general-purpose programming language that was initially developed in the early 1980s and has since become one of the primary programming languages for macOS and iOS app development.  
@@ -703,7 +703,7 @@ This allows developers to leverage existing C-based systems and APIs, making it 
 Objective-C is widely used for macOS and iOS application development, especially in older projects or situations where Swift is not a viable option.  
 Though Swift has become the preferred language for new Apple platform development, Objective-C's extensive history and existing codebases ensure its relevance for the foreseeable future.  
 Understanding Objective-C is valuable for developers maintaining legacy apps and working in environments with mixed Swift and Objective-C codebases.
-"),
+", "devicon-objectivec-plain"),
 ("Swift","
 
 Swift is a general-purpose, multi-paradigm programming language developed by Apple Inc.  
@@ -752,7 +752,7 @@ Higher-order functions like map, filter, and reduce allow for concise and expres
 \
 Swift has quickly gained popularity among developers for its ease of use, safety features, and performance.  
 As it continues to evolve and gain traction, Swift's impact on the programming landscape is likely to expand further.
-"),
+", "devicon-swift-plain"),
 ("R","
 
 R is a powerful, open-source programming language and environment specifically designed for statistical computing, data analysis, and data visualization.  
@@ -796,7 +796,7 @@ The community-driven development ensures regular updates, improvements, and cont
 Despite its strengths, R does have some limitations.  
 For very large-scale data processing or tasks requiring extensive parallelization, other languages like Python may be preferred.  
 However, R's niche lies in its rich statistical capabilities and its community's expertise, making it an essential tool for data analysis and research in academia, industry, and various domains.
-"),
+"), "devicon-rstudio-plain",
 ("TypeScript","TypeScript is a popular programming language developed by Microsoft and released as an open-source project.  
 It was first introduced in 2012 and has since gained significant traction in the web development community.  
 TypeScript is designed to be a strict superset of JavaScript, which means that any valid JavaScript code is also valid TypeScript code.  
@@ -840,7 +840,7 @@ This feature adds flexibility to the language and enables the creation of type-s
 \
 Overall, TypeScript aims to enhance developer productivity, code quality, and maintainability by bringing static typing and advanced language features to the JavaScript ecosystem.  
 It has become a go-to language for large-scale web applications and is widely adopted in popular frameworks like Angular, React, and Vue.js, among others.
-"),
+", "devicon-typescript-plain"),
 ("Go","
 
 Go, also known as Golang, is an open-source programming language developed by Google in 2007 and publicly released in 2009.  
@@ -889,7 +889,7 @@ Many contributors actively develop libraries, frameworks, and tools, making the 
 Go has found significant adoption in various domains, including web development, cloud services, networking, DevOps tools, and system-level programming.  
 Its ease of use, robustness, and performance have made it a popular choice for both small-scale projects and large-scale, high-performance applications.  
 As the language and its ecosystem continue to evolve, Go is likely to remain a relevant and influential force in the software development community.
-"),
+", "devicon-go-original-wordmark"),
 ("Rust","
 
 Rust is a systems programming language known for its safety, performance, and modern syntax.  
@@ -933,7 +933,7 @@ It can call C functions directly and expose its own APIs to be used by C code, m
 \
 Due to its focus on safety and performance, Rust is often used in projects where security, stability, and high performance are critical, such as systems programming, network services, operating systems, game engines, and other performance-intensive applications.  
 It continues to gain traction as developers recognize its strengths and benefits for building reliable and efficient software.
-")
+", "devicon-rust-plain")
 
 
 

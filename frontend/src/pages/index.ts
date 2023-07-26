@@ -6,3 +6,4 @@ export * from "./RecoveryPassword";
 export * from "./ResetPassword";
 export * from "./LanguageDescription";
 export * from "./StatisticsPage";
+export * from "./RelatedUsagePage";

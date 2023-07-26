@@ -71,23 +71,28 @@ app.post("/get-description", (req, res) => {
 });
 
 app.post("/get-related-languages", (req, res) => {
-  const sql = `SELECT prog_languages.prog_languages_name
+  const sql = `SELECT prog_languages.prog_languages_name, prog_languages_usages.description, prog_languages.language_icon
   FROM prog_languages
   INNER JOIN languages_usages
   ON prog_languages.prog_languages_id = languages_usages.prog_languages_id
   INNER JOIN prog_languages_usages
   ON prog_languages_usages.usages_id = languages_usages.usages_id AND prog_languages_usages.usages= ? `;
-  const values = [req.body.usage];
+  const values = [req.body.id];
   prog_diary.query(sql, [values], (err, data) => {
     if (err) console.log(err);
     if (data.length > 0) {
-      const relatedLanguages = [];
+      let relatedLanguages = [];
       for (i = 0; i < data.length; i++) {
-        relatedLanguages.push(data[i].prog_languages_name);
+        relatedLanguages.push({
+          languageName: data[i].prog_languages_name,
+          icon: data[i].language_icon,
+        });
       }
-      res.send(relatedLanguages);
+      console.log(relatedLanguages);
+      const usageDescription = data[0].description;
+      res.send([relatedLanguages, usageDescription]);
     } else {
-      res.send(false);
+      res.send("ciaop");
     }
   });
 });
