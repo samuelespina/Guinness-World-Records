@@ -1,7 +1,7 @@
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router";
 import { RecoveryContext } from "../../RecoveyContext";
 
@@ -15,6 +15,8 @@ const Navbar = () => {
   const [title, setTitle] = useState<number>(0);
   const [toggleIconStatus, SetToggleIconStatus] = useState<boolean>(false);
   const { menuFlag, setMenuFlag } = useContext(RecoveryContext);
+  const menuRef = useRef<HTMLInputElement>(null);
+  const triggerIconRef = useRef<HTMLInputElement>(null);
 
   const getLanguages = () => {
     axios
@@ -61,6 +63,20 @@ const Navbar = () => {
     }
   }, [menuFlag]);
 
+  useEffect(() => {
+    if (menuRef.current && menuRef.current) {
+      document.addEventListener("mousedown", (event: any) => {
+        if (
+          !menuRef.current.contains(event.target) &&
+          !triggerIconRef.current.contains(event.target)
+        ) {
+          setMenuStatus(false);
+          SetToggleIconStatus(false);
+        }
+      });
+    }
+  }, [menuRef.current]);
+
   return (
     <header
       className={`navbar-wrapper ${menuStatus ? "active" : "inactive"}`}
@@ -74,7 +90,10 @@ const Navbar = () => {
           : {}
       }
     >
-      <div className={`menu ${fetchStatus ? "active" : "inactive"}`}>
+      <div
+        className={`menu ${fetchStatus ? "active" : "inactive"}`}
+        ref={menuRef}
+      >
         <div className="navbar">
           <FontAwesomeIcon
             icon={faHouse}
@@ -194,6 +213,7 @@ const Navbar = () => {
           className={`toggle-icon-wrapper ${
             toggleIconStatus ? "active" : "inactive"
           }`}
+          ref={triggerIconRef}
           onClick={() => {
             toggleIconStatus
               ? SetToggleIconStatus(false)

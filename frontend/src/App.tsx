@@ -19,10 +19,6 @@ const App = () => {
   const [email, setEmail] = useState<string>("");
   const [menuFlag, setMenuFlag] = useState<number>(0);
 
-  useEffect(() => {
-    console.log(email);
-  }, [email]);
-
   return (
     <RecoveryContext.Provider
       value={{ email, setEmail, menuFlag, setMenuFlag }}

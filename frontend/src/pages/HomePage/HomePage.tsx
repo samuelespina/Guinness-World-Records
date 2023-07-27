@@ -14,12 +14,9 @@ const HomePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  useEffect(() => {
-    console.log(menuFlag);
-  }, [menuFlag]);
-
   return (
     <div className="homepage">
+      <BubbleBackground />
       <div className="hero">
         <div className="column-one">
           <h1>Prog Diary</h1>

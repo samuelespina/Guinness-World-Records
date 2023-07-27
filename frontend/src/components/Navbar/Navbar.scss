@@ -163,10 +163,8 @@
     }
     &.active {
       width: calc(100vw - 30rem);
+      background-color: rgba(0, 0, 0, 0.8);
     }
-  }
-  &.active {
-    backdrop-filter: blur(4px);
   }
 }
 
@@ -184,5 +182,142 @@
     transform: translateY(0rem);
   }
   100% {
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar-wrapper {
+    .menu {
+      width: 25rem;
+    }
+    .cover {
+      &.active {
+        width: calc(100vw - 25rem);
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-wrapper {
+    .menu {
+      width: 17rem;
+      .navbar {
+        .title {
+          font-size: 1rem;
+        }
+        svg {
+          font-size: 1.3rem;
+          &:hover {
+            scale: 1;
+          }
+        }
+      }
+      .fetch {
+        div {
+          p {
+            font-size: 10px !important; // non funziona
+            scale: 0.8;
+          }
+        }
+      }
+      &.active {
+        .navbar {
+          width: 40%;
+          height: 25%;
+          .title {
+            scale: 0.8;
+            &:hover {
+              scale: 0.8;
+            }
+          }
+        }
+
+        .fetch {
+          width: 60%;
+          div {
+            width: 100%;
+            p {
+              &:hover {
+                scale: 0.8;
+              }
+            }
+          }
+        }
+      }
+    }
+    .cover {
+      .toggle-icon-wrapper {
+        scale: 0.9;
+      }
+      &.active {
+        width: calc(100vw - 17rem);
+      }
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .navbar-wrapper {
+    .menu {
+      width: 15rem;
+      .navbar {
+        .title {
+          font-size: 1.2rem;
+        }
+        svg {
+          font-size: 1.5rem;
+          &:hover {
+            scale: 1;
+          }
+        }
+      }
+      .fetch {
+        div {
+          p {
+            font-size: 10px !important; // non funziona
+            scale: 0.8;
+            margin: 1.3rem auto;
+          }
+        }
+      }
+      &.active {
+        .navbar {
+          width: 35%;
+          height: 25%;
+          .title {
+            scale: 0.7;
+            &:hover {
+              scale: 0.8;
+            }
+          }
+          svg {
+            scale: 0.7;
+          }
+        }
+
+        .fetch {
+          width: 65%;
+          div {
+            width: 100%;
+            p {
+              &:hover {
+                scale: 0.8;
+              }
+            }
+          }
+        }
+      }
+    }
+    .cover {
+      .toggle-icon-wrapper {
+        scale: 0.7;
+        top: -0.7rem;
+        left: -0.7rem;
+      }
+      &.active {
+        width: calc(100vw - 15rem);
+      }
+    }
   }
 }

@@ -1,9 +1,11 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const BubbleBackground = () => {
   let numbers: Array<number> = [5, 25, 45, 65, 85];
   const numbersBackup: Array<number> = [5, 25, 45, 65, 85];
   const bubbleBackgroundRef = useRef<HTMLInputElement>(null);
+  const [bubblesInitialized, setBubblesInitialized] = useState<boolean>(false);
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
 
   const getRandomNumberStartPoint = () => {
     if (numbers.length > 0) {
@@ -21,10 +23,17 @@ const BubbleBackground = () => {
   };
 
   const getRandomNumberWith = () => {
-    let min: number = 0;
-    let max: number = 20;
-    let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-    return randomNumber;
+    if (screenWidth < 769) {
+      let min: number = 0;
+      let max: number = 15;
+      let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      return randomNumber;
+    } else {
+      let min: number = 0;
+      let max: number = 20;
+      let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      return randomNumber;
+    }
   };
 
   const addBubble = () => {
@@ -43,31 +52,65 @@ const BubbleBackground = () => {
     }
   };
 
-  useEffect(() => {
-    addBubble();
+  const initBubbles = () => {
     setTimeout(() => {
       addBubble();
-    }, 2000);
+    }, 0); //creata una bolla dopo 2 secondi
+
     setTimeout(() => {
       addBubble();
-    }, 4000);
+    }, 2000); //creata una bolla dopo 4 secondi
+
+    setTimeout(() => {
+      addBubble();
+    }, 4000); //creata una bolla dopo 6 secondi
+
+    setTimeout(() => {
+      addBubble();
+    }, 6000); //creata una bolla dopo 6 secondi
+
+    setTimeout(() => {
+      addBubble();
+    }, 7000); //creata una bolla dopo 6 secondi
 
     setInterval(() => {
       //ogni 7 secondi viene :
 
       setTimeout(() => {
         addBubble();
-      }, 2000); //creata una bolla dopo 2 secondi
+      }, 0); //creata una bolla dopo 2 secondi
 
       setTimeout(() => {
         addBubble();
-      }, 4000); //creata una bolla dopo 4 secondi
+      }, 2000); //creata una bolla dopo 4 secondi
+
+      setTimeout(() => {
+        addBubble();
+      }, 4000); //creata una bolla dopo 6 secondi
 
       setTimeout(() => {
         addBubble();
       }, 6000); //creata una bolla dopo 6 secondi
+
+      setTimeout(() => {
+        addBubble();
+      }, 7000); //creata una bolla dopo 6 secondi
     }, 7000);
-  }, [numbers, bubbleBackgroundRef.current]);
+  };
+
+  useEffect(() => {
+    console.log("BUBBLES STATE:", bubblesInitialized);
+    if (bubblesInitialized) {
+      initBubbles();
+    }
+  }, [bubblesInitialized]);
+
+  useEffect(() => {
+    console.log("Numbers:", numbers, bubbleBackgroundRef.current);
+    if (!bubblesInitialized) {
+      setBubblesInitialized(true);
+    }
+  }, [numbers, bubbleBackgroundRef.current, bubblesInitialized]);
 
   return <div className="bubble-background" ref={bubbleBackgroundRef}></div>;
 };

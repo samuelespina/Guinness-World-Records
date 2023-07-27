@@ -6,7 +6,7 @@ import "chart.js/auto";
 const Chart = (props: ChartProps) => {
   return (
     <div className="chart">
-      <Bar data={props.chartInfo.chartData} width="600" height="250" />
+      <Bar data={props.chartInfo.chartData} />
     </div>
   );
 };

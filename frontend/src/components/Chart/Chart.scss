@@ -1,10 +1,26 @@
 .chart {
-  height: 500px !important;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 3rem;
   border-radius: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5rem;
+  margin: 5rem auto 0 auto;
+}
+
+@media (max-width: 600px) {
+  .chart {
+    scale: 1.1;
+    padding: 1rem;
+    width: 25rem;
+    height: 20rem;
+  }
+}
+@media (max-width: 425px) {
+  .chart {
+    scale: 1;
+    padding: 0.5rem;
+    width: auto;
+    height: 17rem;
+  }
 }
