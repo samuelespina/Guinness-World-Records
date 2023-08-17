@@ -5,6 +5,8 @@ export interface AppContext {
   setEmail: (value: string) => void;
   menuFlag: number;
   setMenuFlag: (value: number) => void;
+  jwt: boolean;
+  setJwt: (value: boolean) => void;
 }
 
 export const AppContext = createContext<AppContext>({
@@ -12,4 +14,6 @@ export const AppContext = createContext<AppContext>({
   setEmail: (value: "") => {}, //perchè le parentesi graffe?
   menuFlag: 0,
   setMenuFlag: (value: 0) => {},
+  jwt: false,
+  setJwt: (value: false) => {},
 });

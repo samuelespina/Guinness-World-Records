@@ -1,0 +1,27 @@
+Arguments: 
+  /usr/local/bin/node /Users/samuele_spina/.yarn/bin/yarn.js add cookie-parser
+
+PATH: 
+  /Users/samuele_spina/.yarn/bin:/Users/samuele_spina/.config/yarn/global/node_modules/.bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/samuele_spina/.yarn/bin:/Users/samuele_spina/.config/yarn/global/node_modules/.bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.16.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: connect ECONNREFUSED 192.168.1.1:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1494:16)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

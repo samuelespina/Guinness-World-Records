@@ -12,15 +12,17 @@ import {
   StatisticsPage,
 } from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AppContext } from "./RecoveyContext";
-import AOS from "aos";
+import { AppContext } from "./AppContext";
 
 const App = () => {
   const [email, setEmail] = useState<string>("");
   const [menuFlag, setMenuFlag] = useState<number>(0);
+  const [jwt, setJwt] = useState<boolean>(true);
 
   return (
-    <AppContext.Provider value={{ email, setEmail, menuFlag, setMenuFlag }}>
+    <AppContext.Provider
+      value={{ email, setEmail, menuFlag, setMenuFlag, jwt, setJwt }}
+    >
       <div className="app">
         <BrowserRouter>
           <Navbar />

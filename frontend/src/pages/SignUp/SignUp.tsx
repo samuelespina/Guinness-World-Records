@@ -11,16 +11,6 @@ const SignUp = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
   const problemText = useRef<HTMLInputElement>(null);
 
-  function setCookie(name: string, value: string, daysToExpire: number) {
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + daysToExpire);
-
-    const cookieValue =
-      encodeURIComponent(value) +
-      (daysToExpire ? "; expires=" + expirationDate.toUTCString() : "");
-
-    document.cookie = name + "=" + cookieValue + "; path=/";
-  }
   const handleSubmit = () => {
     axios
       .post("http://localhost:8081/signup", {
@@ -28,8 +18,10 @@ const SignUp = () => {
         email,
         password,
       })
-      .then(
-        (res) => res.data.token && localStorage.setItem("jwt", res.data.token)
+      .then((res) =>
+        res.data.token
+          ? (localStorage.setItem("jwt", res.data.token), navigate("/"))
+          : ""
       )
       .catch((err) => problemText.current.classList.add("active"));
   };

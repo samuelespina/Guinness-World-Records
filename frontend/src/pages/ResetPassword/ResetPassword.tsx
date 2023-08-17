@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
-import { AppContext } from "../../RecoveyContext";
+import { AppContext } from "../../AppContext";
 import { BubbleBackground, InputComponent } from "../../components";
 import { useNavigate } from "react-router";
 

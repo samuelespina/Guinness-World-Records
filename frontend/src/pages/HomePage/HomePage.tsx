@@ -6,14 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { BubbleBackground } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
-import { AppContext } from "../../RecoveyContext";
+import { AppContext } from "../../AppContext";
 
 const HomePage = () => {
   const { menuFlag, setMenuFlag } = useContext(AppContext);
+  const [refrash, setRefrash] = useState<boolean>(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [refrash]);
   return (
     <div className="homepage">
       <BubbleBackground />

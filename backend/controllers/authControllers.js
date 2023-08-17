@@ -300,20 +300,35 @@ module.exports.getStatistics = (req, res) => {
       WHERE prog_language_name = ?
       GROUP BY statistic_year ASC`;
   const values = [req.body.id];
-  prog_diary.query(sql, [values], (err, data) => {
-    if (err) console.log(err);
-    if (data.length > 0) {
-      const statistics = [];
-      for (let i = 0; i < data.length; i++) {
-        statistics.push({
-          percentage: data[i].statistic_percentage,
-          year: data[i].statistic_year,
-        });
+
+  if (req.body.token) {
+    console.log("token exist", req.body.token);
+    jwt.verify(req.body.token, "PrOgDiArYsEcReT", (err, decodedToken) => {
+      if (err) {
+        res.send(false);
+      } else {
+        try {
+          prog_diary.query(sql, [values], (err, data) => {
+            if (data.length > 0) {
+              const statistics = [];
+              for (let i = 0; i < data.length; i++) {
+                statistics.push({
+                  percentage: data[i].statistic_percentage,
+                  year: data[i].statistic_year,
+                });
+              }
+              res.send(statistics);
+            } else {
+              res.send(false);
+            }
+          });
+        } catch (err) {
+          console.log(err);
+        }
       }
-      console.log(statistics);
-      res.send(statistics);
-    } else {
-      res.send(false);
-    }
-  });
+    });
+  } else {
+    console.log("token doesn't exist ", req.body.token);
+    res.send(false);
+  }
 };

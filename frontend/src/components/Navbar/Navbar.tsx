@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router";
-import { AppContext } from "../../RecoveyContext";
+import { AppContext } from "../../AppContext";
 
 const Navbar = () => {
   const [allLanguages, setAllLanguages] = useState<Array<string>>([]);
@@ -139,6 +139,13 @@ const Navbar = () => {
           >
             STATISTICS
           </h2>
+          <button
+            onClick={() => {
+              localStorage.removeItem("jwt");
+            }}
+          >
+            logout
+          </button>
         </div>
         <div className="fetch">
           {whatToFatch === 1 ? (
