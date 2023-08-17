@@ -1,39 +1,36 @@
 .input-wrapper {
   border-radius: 2rem;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   .input-field {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+
+    .placeholder {
+      font-size: 0.9rem;
+      position: absolute;
+      transition: all 0.3s ease-in-out;
+      margin-left: 1rem;
+      opacity: 0.3;
+      z-index: 2;
+      padding: 0.3rem;
+      pointer-events: none;
+    }
 
     .label {
       position: relative;
-      width: 12rem;
       input {
         border-radius: 1rem;
         border: 1px solid rgb(230, 230, 230);
         padding: 0.5rem;
         outline: none;
-      }
-      .placeholder {
-        font-size: 0.9rem;
-        position: absolute;
-        top: 20%;
-        left: 10%;
-        transition: all 0.3s ease-in-out;
-        opacity: 0.3;
-        pointer-events: none;
-      }
-
-      &.active {
-        .placeholder {
-          font-size: 0.8rem;
-          transform: translate(-20%, -105%);
-          background-color: rgb(4, 250, 200);
-          padding: 0.3rem;
-          border-radius: 0.7rem;
-          opacity: 1;
-        }
       }
     }
 
@@ -46,14 +43,25 @@
       border-radius: 50%;
       border: 1px solid black;
       background: rgb(191, 129, 255);
-
-      margin-left: 0.5rem;
+      z-index: 100;
       border: none;
       box-shadow: 0px 0px 50px -3px rgba(0, 0, 0, 0.1),
         0px 10px 15px -3px rgba(0, 0, 0, 0.1);
       transition: all 0.1s ease-in-out;
       &:hover {
+        cursor: pointer;
         background: rgb(180, 108, 253);
+      }
+    }
+    &.active {
+      .placeholder {
+        font-size: 0.8rem;
+        transform: translateY(-105%);
+        margin-left: 0;
+        background-color: rgb(191, 129, 255);
+
+        border-radius: 0.7rem;
+        opacity: 1;
       }
     }
   }

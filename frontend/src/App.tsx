@@ -12,7 +12,7 @@ import {
   StatisticsPage,
 } from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { RecoveryContext } from "./RecoveyContext";
+import { AppContext } from "./RecoveyContext";
 import AOS from "aos";
 
 const App = () => {
@@ -20,9 +20,7 @@ const App = () => {
   const [menuFlag, setMenuFlag] = useState<number>(0);
 
   return (
-    <RecoveryContext.Provider
-      value={{ email, setEmail, menuFlag, setMenuFlag }}
-    >
+    <AppContext.Provider value={{ email, setEmail, menuFlag, setMenuFlag }}>
       <div className="app">
         <BrowserRouter>
           <Navbar />
@@ -48,7 +46,7 @@ const App = () => {
           <Footer />
         </BrowserRouter>
       </div>
-    </RecoveryContext.Provider>
+    </AppContext.Provider>
   );
 };
 

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { RecoveryContext } from "../../RecoveyContext";
+import { AppContext } from "../../RecoveyContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { BubbleBackground, InputComponent } from "../../components";
 
 const RecoveryPassword = () => {
-  const { email } = useContext(RecoveryContext);
+  const { email } = useContext(AppContext);
   const [validationCode, setValidationCode] = useState<string>("");
   const showMessage = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();

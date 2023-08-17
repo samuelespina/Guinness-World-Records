@@ -1,19 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { BubbleBackground, InputComponent } from "../../components";
+import { useNavigate } from "react-router";
 
 const LogIn = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const showMessage = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     axios
       .post("http://localhost:8081/login", { email, password })
-      .then((res) =>
-        res.data === false
-          ? showMessage.current.classList.add("active")
-          : showMessage.current.classList.remove("active")
+      .then(
+        (res) => (
+          res.data
+            ? (localStorage.setItem("jwt", res.data), navigate("/"))
+            : console.log(res.data),
+          showMessage.current.classList.add("active")
+        )
       )
       .catch((err) => console.log(err));
   };
@@ -38,6 +43,7 @@ const LogIn = () => {
             ChecksOn={false}
             fieldName="password"
             setValue={setPassword}
+            look={true}
           />
         </div>
         <button

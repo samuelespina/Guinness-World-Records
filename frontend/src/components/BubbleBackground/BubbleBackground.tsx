@@ -99,14 +99,12 @@ const BubbleBackground = () => {
   };
 
   useEffect(() => {
-    console.log("BUBBLES STATE:", bubblesInitialized);
     if (bubblesInitialized) {
       initBubbles();
     }
   }, [bubblesInitialized]);
 
   useEffect(() => {
-    console.log("Numbers:", numbers, bubbleBackgroundRef.current);
     if (!bubblesInitialized) {
       setBubblesInitialized(true);
     }

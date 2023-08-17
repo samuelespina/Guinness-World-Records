@@ -1,14 +1,4 @@
 .sign-up-page {
   .form {
-    .problemText {
-      opacity: 0;
-      user-select: none;
-      display: none;
-      &.active {
-        display: block;
-        opacity: 1;
-        color: red;
-      }
-    }
   }
 }

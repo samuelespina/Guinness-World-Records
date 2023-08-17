@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
-import { RecoveryContext } from "../../RecoveyContext";
+import { AppContext } from "../../RecoveyContext";
 import { BubbleBackground, InputComponent } from "../../components";
 import { useNavigate } from "react-router";
 
 const ResetPassword = () => {
-  const { email } = useContext(RecoveryContext);
+  const { email } = useContext(AppContext);
   const [password, setPassword] = useState<string>("");
   const [isValid, setIsValid] = useState<boolean>(false);
   const showError = useRef<HTMLInputElement>(null);

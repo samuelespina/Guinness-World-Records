@@ -1,6 +1,7 @@
 .homepage {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,8 +26,11 @@
       width: calc(50% - 2rem);
       height: calc(100% - 2rem);
       line-height: 2rem;
-
-      padding: 4rem 0 0 6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4rem 0 0 2rem;
       color: white;
 
       h1 {
@@ -104,7 +108,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
+        margin-bottom: 9%;
+        margin-left: 9%;
+        margin-right: 3rem;
         svg {
           font-size: 2rem;
         }
@@ -112,13 +118,15 @@
 
       .circle-info {
         position: relative;
-        width: 90%;
-        aspect-ratio: 1/1;
         display: grid;
+        width: 100%;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
         grid-column-gap: 0.5rem;
         grid-row-gap: 0.5rem;
+        padding-bottom: 9%;
+        padding-left: 9%;
+        margin-right: 3rem;
 
         .info-field.one,
         .info-field.three,

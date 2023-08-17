@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { BubbleBackground } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
-import { RecoveryContext } from "../../RecoveyContext";
+import { AppContext } from "../../RecoveyContext";
 
 const HomePage = () => {
-  const { menuFlag, setMenuFlag } = useContext(RecoveryContext);
+  const { menuFlag, setMenuFlag } = useContext(AppContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);

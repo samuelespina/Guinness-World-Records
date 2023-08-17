@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router";
-import { RecoveryContext } from "../../RecoveyContext";
+import { AppContext } from "../../RecoveyContext";
 
 const Navbar = () => {
   const [allLanguages, setAllLanguages] = useState<Array<string>>([]);
@@ -14,7 +14,7 @@ const Navbar = () => {
   const [whatToFatch, setWhatToFatch] = useState<number>(0);
   const [title, setTitle] = useState<number>(0);
   const [toggleIconStatus, SetToggleIconStatus] = useState<boolean>(false);
-  const { menuFlag, setMenuFlag } = useContext(RecoveryContext);
+  const { menuFlag, setMenuFlag } = useContext(AppContext);
   const menuRef = useRef<HTMLInputElement>(null);
   const triggerIconRef = useRef<HTMLInputElement>(null);
 

@@ -47,19 +47,26 @@ const InputComponent = (props: InputComponentInterface) => {
           : { border: "none" }
       }
     >
-      <div className="input-field">
-        <div className={statusLabel ? "label active" : "label inactive"}>
+      <div
+        className={statusLabel ? "input-field active" : "input-field inactive"}
+      >
+        <p className="placeholder">{props.fieldName}</p>
+        <div className="label">
           <input
-            type={props.ChecksOn && !typeInput ? "password" : "text"}
+            type={
+              props.fieldName === "password"
+                ? !typeInput
+                  ? "password"
+                  : "text"
+                : "text"
+            }
             onChange={(e) => {
               props.setValue(e.target.value);
             }}
           />
-
-          <p className="placeholder">{props.fieldName}</p>
         </div>
 
-        {props.ChecksOn ? (
+        {props.ChecksOn || props.look ? (
           <button
             className="look"
             onClick={() => {
