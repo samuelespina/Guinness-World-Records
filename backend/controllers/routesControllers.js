@@ -116,7 +116,7 @@ module.exports.signup = async (req, res) => {
   }
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = async (req, res) => {
   const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
 
   try {
@@ -139,7 +139,7 @@ module.exports.login = (req, res) => {
   }
 };
 
-module.exports.forgotPassword = (req, res) => {
+module.exports.forgotPassword = async (req, res) => {
   const deleatePreValidationCodes = `DELETE FROM recovery_data WHERE email = ? `;
   const deleatePreValidationCodesValues = [req.body.email];
   const ifUserIn = "SELECT email FROM users WHERE email = ?";
@@ -152,7 +152,7 @@ module.exports.forgotPassword = (req, res) => {
     date,
   ];
   try {
-    prog_diary.query(deleatePreValidationCodes, [
+    await prog_diary.query(deleatePreValidationCodes, [
       deleatePreValidationCodesValues,
     ]);
   } catch (err) {
@@ -160,7 +160,7 @@ module.exports.forgotPassword = (req, res) => {
   }
 
   try {
-    prog_diary.query(ifUserIn, [req.body.email], (err, data) => {
+    await prog_diary.query(ifUserIn, [req.body.email], (err, data) => {
       if (data.length > 0) {
         try {
           prog_diary.query(
@@ -195,7 +195,7 @@ module.exports.forgotPassword = (req, res) => {
   }
 };
 
-module.exports.recoveryPassword = (req, res) => {
+module.exports.recoveryPassword = async (req, res) => {
   const sql = `SELECT * FROM recovery_data WHERE email  = ? AND validation_code = ?`;
 
   try {
@@ -219,7 +219,7 @@ module.exports.recoveryPassword = (req, res) => {
   }
 };
 
-module.exports.resetPassword = (req, res) => {
+module.exports.resetPassword = async (req, res) => {
   const sql = `UPDATE users SET password = ? WHERE email = ?`;
 
   try {
@@ -235,7 +235,7 @@ module.exports.resetPassword = (req, res) => {
   }
 };
 
-module.exports.getProgrammingLanguages = (req, res) => {
+module.exports.getProgrammingLanguages = async (req, res) => {
   const sql = `SELECT	prog_languages_name FROM prog_languages`;
   try {
     prog_diary.query(sql, (err, data) => {
@@ -254,7 +254,7 @@ module.exports.getProgrammingLanguages = (req, res) => {
   }
 };
 
-module.exports.getUsages = (req, res) => {
+module.exports.getUsages = async (req, res) => {
   const sql = `SELECT usages FROM prog_languages_usages`;
 
   try {
@@ -275,7 +275,7 @@ module.exports.getUsages = (req, res) => {
   }
 };
 
-module.exports.getDescription = (req, res) => {
+module.exports.getDescription = async (req, res) => {
   const sql = `SELECT description FROM prog_languages WHERE prog_languages_name = ?`;
   const values = [req.body.id];
 
@@ -293,7 +293,7 @@ module.exports.getDescription = (req, res) => {
   }
 };
 
-module.exports.getRelatedLanguages = (req, res) => {
+module.exports.getRelatedLanguages = async (req, res) => {
   const sql = `SELECT prog_languages.prog_languages_name, prog_languages_usages.description, prog_languages.language_icon
       FROM prog_languages
       INNER JOIN languages_usages
@@ -323,7 +323,7 @@ module.exports.getRelatedLanguages = (req, res) => {
   }
 };
 
-module.exports.getStatistics = (req, res) => {
+module.exports.getStatistics = async (req, res) => {
   const sql = `SELECT statistic_percentage, statistic_year
       FROM statistics
       WHERE prog_language_name = ?
