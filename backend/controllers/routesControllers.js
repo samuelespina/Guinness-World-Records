@@ -140,131 +140,157 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.forgotPassword = (req, res) => {
-  const sql1 = `DELETE FROM recovery_data WHERE email = ? `;
-  const values1 = [req.body.email];
-  const sql2 =
-    "INSERT INTO recovery_data (`email`, `validation_code`, `expiration_date`) Values (?)";
+  const deleatePreValidationCodes = `DELETE FROM recovery_data WHERE email = ? `;
+  const deleatePreValidationCodesValues = [req.body.email];
+  const ifUserIn = "SELECT email FROM users WHERE email = ?";
   const date = Date.now() + 60000;
-  const values2 = [req.body.email, req.body.validationCode, date];
+  const validationInsert =
+    "INSERT INTO recovery_data (`email`, `validation_code`, `expiration_date`) Values (?)";
+  const validationInsertValues = [
+    req.body.email,
+    req.body.validationCode,
+    date,
+  ];
+  try {
+    prog_diary.query(deleatePreValidationCodes, [
+      deleatePreValidationCodesValues,
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
 
-  prog_diary.query(sql1, [values1], (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
-  });
+  try {
+    prog_diary.query(ifUserIn, [req.body.email], (err, data) => {
+      if (data.length > 0) {
+        try {
+          prog_diary.query(
+            validationInsert,
+            [validationInsertValues],
+            (err, data) => {
+              const mailOptions = {
+                from: "recoveryservice404@gmail.com",
+                to: req.body.email,
+                subject: "Reset your password",
+                text: `Use your validation code : ${req.body.validationCode}`,
+              };
 
-  prog_diary.query(sql2, [values2], (err, data) => {
-    if (err) return res.send(err);
-
-    const mailOptions = {
-      from: "recoveryservice404@gmail.com",
-      to: req.body.email,
-      subject: "Reset your password",
-      text: `Use your validation code : ${req.body.validationCode}`,
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log("DIOOOOOOOOOOOOOOOOOO", error);
+              transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                  return error;
+                } else {
+                  res.send(true);
+                }
+              });
+            }
+          );
+        } catch (err) {
+          console.log(err);
+        }
       } else {
-        console.log("Email sent: " + info.response);
+        res.send(false);
       }
     });
-
-    res.send(true);
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports.recoveryPassword = (req, res) => {
   const sql = `SELECT * FROM recovery_data WHERE email  = ? AND validation_code = ?`;
-  prog_diary.query(
-    sql,
-    [req.body.email, req.body.validationCode],
-    (err, data) => {
-      if (err) return res.json(err);
-      if (Date.now() < parseInt(data[0].expiration_date)) {
-        if (data.length > 0) {
-          console.log(
-            "data di submit : ",
-            Date.now(),
-            "data di scadenza : ",
-            data[0].expiration_date
-          );
-          res.send(true);
+
+  try {
+    prog_diary.query(
+      sql,
+      [req.body.email, req.body.validationCode],
+      (err, data) => {
+        if (Date.now() < parseInt(data[0]?.expiration_date)) {
+          if (data.length > 0) {
+            res.send(true);
+          } else {
+            res.send(false);
+          }
         } else {
           res.send(false);
         }
-      } else {
-        console.log(
-          "data di submit : ",
-          Date.now(),
-          "data di scadenza : ",
-          data[0].expiration_date
-        );
-
-        res.send(false);
       }
-    }
-  );
+    );
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports.resetPassword = (req, res) => {
   const sql = `UPDATE users SET password = ? WHERE email = ?`;
-  prog_diary.query(
-    sql,
-    [md5(req.body.password), req.body.email],
-    (err, data) => {
-      if (err) return res.json(err);
-      res.send(true);
-    }
-  );
+
+  try {
+    prog_diary.query(
+      sql,
+      [md5(req.body.password), req.body.email],
+      (err, data) => {
+        res.send(true);
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports.getProgrammingLanguages = (req, res) => {
   const sql = `SELECT	prog_languages_name FROM prog_languages`;
-  prog_diary.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    if (data.length > 0) {
-      const allLanguages = [];
-      for (i = 0; i < data.length; i++) {
-        allLanguages.push(data[i].prog_languages_name);
+  try {
+    prog_diary.query(sql, (err, data) => {
+      if (data.length > 0) {
+        const allLanguages = [];
+        for (i = 0; i < data.length; i++) {
+          allLanguages.push(data[i].prog_languages_name);
+        }
+        res.send(allLanguages);
+      } else {
+        res.send(false);
       }
-      res.send(allLanguages);
-    } else {
-      res.send(false);
-    }
-  });
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports.getUsages = (req, res) => {
   const sql = `SELECT usages FROM prog_languages_usages`;
-  prog_diary.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    if (data.length > 0) {
-      const usages = [];
 
-      for (i = 0; i < data.length; i++) {
-        usages.push(data[i].usages);
+  try {
+    prog_diary.query(sql, (err, data) => {
+      if (data.length > 0) {
+        const usages = [];
+
+        for (i = 0; i < data.length; i++) {
+          usages.push(data[i].usages);
+        }
+        res.send(usages);
+      } else {
+        res.send(false);
       }
-      res.send(usages);
-    } else {
-      res.send(false);
-    }
-  });
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports.getDescription = (req, res) => {
   const sql = `SELECT description FROM prog_languages WHERE prog_languages_name = ?`;
   const values = [req.body.id];
-  prog_diary.query(sql, [values], (err, data) => {
-    if (err) console.log(err);
-    if (data.length > 0) {
-      const description = data[0].description;
-      res.send(description);
-    } else {
-      res.send(false);
-    }
-  });
+
+  try {
+    prog_diary.query(sql, [values], (err, data) => {
+      if (data.length > 0) {
+        const description = data[0].description;
+        res.send(description);
+      } else {
+        res.send(false);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports.getRelatedLanguages = (req, res) => {
@@ -275,23 +301,26 @@ module.exports.getRelatedLanguages = (req, res) => {
       INNER JOIN prog_languages_usages
       ON prog_languages_usages.usages_id = languages_usages.usages_id AND prog_languages_usages.usages= ? `;
   const values = [req.body.id];
-  prog_diary.query(sql, [values], (err, data) => {
-    if (err) console.log(err);
-    if (data.length > 0) {
-      let relatedLanguages = [];
-      for (i = 0; i < data.length; i++) {
-        relatedLanguages.push({
-          languageName: data[i].prog_languages_name,
-          icon: data[i].language_icon,
-        });
+
+  try {
+    prog_diary.query(sql, [values], (err, data) => {
+      if (data.length > 0) {
+        let relatedLanguages = [];
+        for (i = 0; i < data.length; i++) {
+          relatedLanguages.push({
+            languageName: data[i].prog_languages_name,
+            icon: data[i].language_icon,
+          });
+        }
+        const usageDescription = data[0].description;
+        res.send([relatedLanguages, usageDescription]);
+      } else {
+        res.send(false);
       }
-      console.log(relatedLanguages);
-      const usageDescription = data[0].description;
-      res.send([relatedLanguages, usageDescription]);
-    } else {
-      res.send("ciaop");
-    }
-  });
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports.getStatistics = (req, res) => {
@@ -302,7 +331,6 @@ module.exports.getStatistics = (req, res) => {
   const values = [req.body.id];
 
   if (req.body.token) {
-    console.log("token exist", req.body.token);
     jwt.verify(req.body.token, "PrOgDiArYsEcReT", (err, decodedToken) => {
       if (err) {
         res.send(false);
@@ -328,7 +356,6 @@ module.exports.getStatistics = (req, res) => {
       }
     });
   } else {
-    console.log("token doesn't exist ", req.body.token);
     res.send(false);
   }
 };
