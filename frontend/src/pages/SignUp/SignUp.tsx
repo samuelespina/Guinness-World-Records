@@ -18,10 +18,13 @@ const SignUp = () => {
         email,
         password,
       })
-      .then((res) =>
-        res.data.token
-          ? (localStorage.setItem("jwt", res.data.token), navigate("/"))
-          : ""
+      .then(
+        (res) => (
+          res.data.token
+            ? (localStorage.setItem("jwt", res.data.token), navigate("/"))
+            : "",
+          console.log(res.data)
+        )
       )
       .catch((err) => problemText.current.classList.add("active"));
   };

@@ -50,93 +50,74 @@ module.exports.signup = async (req, res) => {
   const sql2 = `SELECT user_name FROM users WHERE user_name = ? `;
   const sql3 = `SELECT email FROM users WHERE email = ? `;
 
-  try {
-    let resMessage = "";
+  let resMessage = "";
+  console.log(resMessage);
 
-    const firstControl = await prog_diary.query(
-      sql2,
-      [req.body.user_name],
-      (err, data) => {
-        if (data.length > 0) {
-          resMessage = resMessage + "username";
-        }
+  prog_diary.query(sql2, [req.body.user_name], (err, data) => {
+    if (err) return err;
+    if (data.length > 0) {
+      resMessage = resMessage + "username";
+    }
+    prog_diary.query(sql3, [req.body.email], (err, data) => {
+      if (err) return err;
+      if (data.length > 0) {
+        resMessage = resMessage + "email";
       }
-    );
+      if (resMessage === "") {
+        if (emailRegex.test(req.body.email)) {
+          prog_diary.query(sql1, [values1], (err, data) => {
+            if (err) return err;
+            // creazione del token
+            const token = createToken(req.body.email);
 
-    const secondControl = await prog_diary.query(
-      sql3,
-      [req.body.email],
-      (err, data) => {
-        if (data.length > 0) {
-          resMessage = resMessage + "email";
-        }
-        if (resMessage === "") {
-          //ISSUES : funziona solo se metto l'if che gestisce il res dentro l'ultimo try, se non faccio così gestisce questo if asincrono e torna sempre true perchè lo esegue all'inizio, anche se metto gli await(che sicuramente non funzionano)
-
-          if (emailRegex.test(req.body.email)) {
-            try {
-              prog_diary.query(sql1, [values1], (data) => {
-                // creazione del token
-                const token = createToken(req.body.email);
-
-                res.send({
-                  registrationResult: true,
-                  emailstatus: true,
-                  token: token,
-                });
-              });
-            } catch (err) {
-              console.log(err);
-              res.send(false);
-            }
-          } else {
             res.send({
-              registrationResult: false,
-              emailstatus: false,
-              token: false,
+              registrationResult: true,
+              emailstatus: true,
+              token: token,
             });
-          }
-        } else if (resMessage === "usernameemail") {
-          res.send({
-            registrationResult: "username already registered",
-            emailstatus: true,
-            token: false,
           });
         } else {
           res.send({
-            registrationResult: resMessage,
-            emailstatus: emailRegex.test(req.body.email),
+            registrationResult: false,
+            emailstatus: false,
             token: false,
           });
         }
+      } else if (resMessage === "usernameemail") {
+        res.send({
+          registrationResult: "username already registered",
+          emailstatus: true,
+          token: false,
+        });
+      } else {
+        res.send({
+          registrationResult: resMessage,
+          emailstatus: emailRegex.test(req.body.email),
+          token: false,
+        });
       }
-    );
-  } catch (err) {
-    console.log(err);
-  }
+    });
+  });
 };
 
 module.exports.login = async (req, res) => {
   const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
 
-  try {
-    prog_diary.query(
-      sql,
-      [req.body.email, md5(req.body.password)],
-      (err, data) => {
-        if (data.length > 0) {
-          //creazione del token
-          const token = createToken(req.body.email);
+  prog_diary.query(
+    sql,
+    [req.body.email, md5(req.body.password)],
+    (err, data) => {
+      if (err) return err;
+      if (data.length > 0) {
+        //creazione del token
+        const token = createToken(req.body.email);
 
-          res.send(token);
-        } else {
-          res.send(false);
-        }
+        res.send(token);
+      } else {
+        res.send(false);
       }
-    );
-  } catch (err) {
-    console.log(err);
-  }
+    }
+  );
 };
 
 module.exports.forgotPassword = async (req, res) => {
@@ -151,22 +132,20 @@ module.exports.forgotPassword = async (req, res) => {
     req.body.validationCode,
     date,
   ];
-  try {
-    await prog_diary.query(deleatePreValidationCodes, [
-      deleatePreValidationCodesValues,
-    ]);
-  } catch (err) {
-    console.log(err);
-  }
 
-  try {
-    await prog_diary.query(ifUserIn, [req.body.email], (err, data) => {
-      if (data.length > 0) {
-        try {
+  prog_diary.query(
+    deleatePreValidationCodes,
+    [deleatePreValidationCodesValues],
+    (err) => {
+      if (err) return err;
+      prog_diary.query(ifUserIn, [req.body.email], (err, data) => {
+        if (err) return err;
+        if (data.length > 0) {
           prog_diary.query(
             validationInsert,
             [validationInsertValues],
             (err, data) => {
+              if (err) return err;
               const mailOptions = {
                 from: "recoveryservice404@gmail.com",
                 to: req.body.email,
@@ -183,114 +162,97 @@ module.exports.forgotPassword = async (req, res) => {
               });
             }
           );
-        } catch (err) {
-          console.log(err);
+        } else {
+          res.send(false);
         }
-      } else {
-        res.send(false);
-      }
-    });
-  } catch (err) {
-    console.log(err);
-  }
+      });
+    }
+  );
 };
 
 module.exports.recoveryPassword = async (req, res) => {
   const sql = `SELECT * FROM recovery_data WHERE email  = ? AND validation_code = ?`;
 
-  try {
-    prog_diary.query(
-      sql,
-      [req.body.email, req.body.validationCode],
-      (err, data) => {
-        if (Date.now() < parseInt(data[0]?.expiration_date)) {
-          if (data.length > 0) {
-            res.send(true);
-          } else {
-            res.send(false);
-          }
+  prog_diary.query(
+    sql,
+    [req.body.email, req.body.validationCode],
+    (err, data) => {
+      if (err) return err;
+      if (Date.now() < parseInt(data[0]?.expiration_date)) {
+        if (data.length > 0) {
+          res.send(true);
         } else {
           res.send(false);
         }
+      } else {
+        res.send(false);
       }
-    );
-  } catch (err) {
-    console.log(err);
-  }
+    }
+  );
 };
 
 module.exports.resetPassword = async (req, res) => {
   const sql = `UPDATE users SET password = ? WHERE email = ?`;
 
-  try {
-    prog_diary.query(
-      sql,
-      [md5(req.body.password), req.body.email],
-      (err, data) => {
-        res.send(true);
-      }
-    );
-  } catch (err) {
-    console.log(err);
-  }
+  prog_diary.query(
+    sql,
+    [md5(req.body.password), req.body.email],
+    (err, data) => {
+      if (err) return err;
+      res.send(true);
+    }
+  );
 };
 
 module.exports.getProgrammingLanguages = async (req, res) => {
   const sql = `SELECT	prog_languages_name FROM prog_languages`;
-  try {
-    prog_diary.query(sql, (err, data) => {
-      if (data.length > 0) {
-        const allLanguages = [];
-        for (i = 0; i < data.length; i++) {
-          allLanguages.push(data[i].prog_languages_name);
-        }
-        res.send(allLanguages);
-      } else {
-        res.send(false);
+
+  prog_diary.query(sql, (err, data) => {
+    if (err) return err;
+    if (data.length > 0) {
+      const allLanguages = [];
+      for (i = 0; i < data.length; i++) {
+        allLanguages.push(data[i].prog_languages_name);
       }
-    });
-  } catch (err) {
-    console.log(err);
-  }
+      res.send(allLanguages);
+    } else {
+      res.send(false);
+    }
+  });
 };
 
 module.exports.getUsages = async (req, res) => {
   const sql = `SELECT usages FROM prog_languages_usages`;
 
-  try {
-    prog_diary.query(sql, (err, data) => {
-      if (data.length > 0) {
-        const usages = [];
+  prog_diary.query(sql, (err, data) => {
+    if (err) return err;
+    if (data.length > 0) {
+      const usages = [];
 
-        for (i = 0; i < data.length; i++) {
-          usages.push(data[i].usages);
-        }
-        res.send(usages);
-      } else {
-        res.send(false);
+      for (i = 0; i < data.length; i++) {
+        usages.push(data[i].usages);
       }
-    });
-  } catch (err) {
-    console.log(err);
-  }
+      res.send(usages);
+    } else {
+      res.send(false);
+    }
+  });
+  console.log(err);
 };
 
 module.exports.getDescription = async (req, res) => {
   const sql = `SELECT description FROM prog_languages WHERE prog_languages_name = ?`;
   const values = [req.body.id];
 
-  try {
-    prog_diary.query(sql, [values], (err, data) => {
-      if (data.length > 0) {
-        const description = data[0].description;
-        res.send(description);
-      } else {
-        res.send(false);
-      }
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  prog_diary.query(sql, [values], (err, data) => {
+    if (err) return err;
+    if (data.length > 0) {
+      const description = data[0].description;
+      res.send(description);
+    } else {
+      res.send(false);
+    }
+  });
 };
 
 module.exports.getRelatedLanguages = async (req, res) => {
@@ -302,25 +264,22 @@ module.exports.getRelatedLanguages = async (req, res) => {
       ON prog_languages_usages.usages_id = languages_usages.usages_id AND prog_languages_usages.usages= ? `;
   const values = [req.body.id];
 
-  try {
-    prog_diary.query(sql, [values], (err, data) => {
-      if (data.length > 0) {
-        let relatedLanguages = [];
-        for (i = 0; i < data.length; i++) {
-          relatedLanguages.push({
-            languageName: data[i].prog_languages_name,
-            icon: data[i].language_icon,
-          });
-        }
-        const usageDescription = data[0].description;
-        res.send([relatedLanguages, usageDescription]);
-      } else {
-        res.send(false);
+  prog_diary.query(sql, [values], (err, data) => {
+    if (err) return err;
+    if (data.length > 0) {
+      let relatedLanguages = [];
+      for (i = 0; i < data.length; i++) {
+        relatedLanguages.push({
+          languageName: data[i].prog_languages_name,
+          icon: data[i].language_icon,
+        });
       }
-    });
-  } catch (err) {
-    console.log(err);
-  }
+      const usageDescription = data[0].description;
+      res.send([relatedLanguages, usageDescription]);
+    } else {
+      res.send(false);
+    }
+  });
 };
 
 module.exports.getStatistics = async (req, res) => {
@@ -335,24 +294,21 @@ module.exports.getStatistics = async (req, res) => {
       if (err) {
         res.send(false);
       } else {
-        try {
-          prog_diary.query(sql, [values], (err, data) => {
-            if (data.length > 0) {
-              const statistics = [];
-              for (let i = 0; i < data.length; i++) {
-                statistics.push({
-                  percentage: data[i].statistic_percentage,
-                  year: data[i].statistic_year,
-                });
-              }
-              res.send(statistics);
-            } else {
-              res.send(false);
+        prog_diary.query(sql, [values], (err, data) => {
+          if (err) return err;
+          if (data.length > 0) {
+            const statistics = [];
+            for (let i = 0; i < data.length; i++) {
+              statistics.push({
+                percentage: data[i].statistic_percentage,
+                year: data[i].statistic_year,
+              });
             }
-          });
-        } catch (err) {
-          console.log(err);
-        }
+            res.send(statistics);
+          } else {
+            res.send(false);
+          }
+        });
       }
     });
   } else {
