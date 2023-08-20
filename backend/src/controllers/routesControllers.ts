@@ -1,12 +1,14 @@
-const express = require("express"); //ISSUES : perchè lo vuole qui?
-const mysql = require("mysql");
+import express, { Application, Request, Response } from "express";
+import mysql from "mysql";
 var md5 = require("md5");
 var nodemailer = require("nodemailer");
 var cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-const app = express(); //ISSUES : con app non ci faccio niente, perchè se lo tolgo crasha?
+import jwt from "jsonwebtoken";
+const app: Application = express(); //ISSUES : con app non ci faccio niente, perchè se lo tolgo crasha?
 app.use(express.json()); //il body della res e della req delle api sono già formattate in json
 app.use(cookieParser());
+
+export type ExpressController = (req: Request, res: Response) => any;
 
 const prog_diary = mysql.createConnection({
   host: "localhost",
@@ -28,7 +30,7 @@ const emailRegex =
 
 const maxAge = 2 * 24 * 60 * 60;
 
-const createToken = (payload) => {
+const createToken = (payload: string) => {
   //passo il payload da criptare e la chiave
   return jwt.sign({ payload }, "PrOgDiArYsEcReT", { expiresIn: maxAge });
 };
@@ -43,7 +45,10 @@ CONTROLLERS
 
 */
 
-module.exports.signup = async (req, res) => {
+export const signup: ExpressController = async (
+  req: Request,
+  res: Response
+) => {
   const sql1 =
     "INSERT INTO users (`user_name`, `email`, `password`) Values (?)";
   const values1 = [req.body.user_name, req.body.email, md5(req.body.password)];
@@ -100,7 +105,7 @@ module.exports.signup = async (req, res) => {
   });
 };
 
-module.exports.login = async (req, res) => {
+export const login: ExpressController = async (req, res) => {
   const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
 
   prog_diary.query(
@@ -120,7 +125,7 @@ module.exports.login = async (req, res) => {
   );
 };
 
-module.exports.forgotPassword = async (req, res) => {
+export const forgotPassword: ExpressController = async (req, res) => {
   const deleatePreValidationCodes = `DELETE FROM recovery_data WHERE email = ? `;
   const deleatePreValidationCodesValues = [req.body.email];
   const ifUserIn = "SELECT email FROM users WHERE email = ?";
@@ -153,13 +158,16 @@ module.exports.forgotPassword = async (req, res) => {
                 text: `Use your validation code : ${req.body.validationCode}`,
               };
 
-              transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                  return error;
-                } else {
-                  res.send(true);
+              transporter.sendMail(
+                mailOptions,
+                function (err: Error, info: any) {
+                  if (err) {
+                    return err;
+                  } else {
+                    res.send(true);
+                  }
                 }
-              });
+              );
             }
           );
         } else {
@@ -170,7 +178,7 @@ module.exports.forgotPassword = async (req, res) => {
   );
 };
 
-module.exports.recoveryPassword = async (req, res) => {
+export const recoveryPassword: ExpressController = async (req, res) => {
   const sql = `SELECT * FROM recovery_data WHERE email  = ? AND validation_code = ?`;
 
   prog_diary.query(
@@ -191,7 +199,7 @@ module.exports.recoveryPassword = async (req, res) => {
   );
 };
 
-module.exports.resetPassword = async (req, res) => {
+export const resetPassword: ExpressController = async (req, res) => {
   const sql = `UPDATE users SET password = ? WHERE email = ?`;
 
   prog_diary.query(
@@ -204,14 +212,14 @@ module.exports.resetPassword = async (req, res) => {
   );
 };
 
-module.exports.getProgrammingLanguages = async (req, res) => {
+export const getProgrammingLanguages: ExpressController = async (req, res) => {
   const sql = `SELECT	prog_languages_name FROM prog_languages`;
 
   prog_diary.query(sql, (err, data) => {
     if (err) return err;
     if (data.length > 0) {
       const allLanguages = [];
-      for (i = 0; i < data.length; i++) {
+      for (let i: number = 0; i < data.length; i++) {
         allLanguages.push(data[i].prog_languages_name);
       }
       res.send(allLanguages);
@@ -221,7 +229,7 @@ module.exports.getProgrammingLanguages = async (req, res) => {
   });
 };
 
-module.exports.getUsages = async (req, res) => {
+export const getUsages: ExpressController = async (req, res) => {
   const sql = `SELECT usages FROM prog_languages_usages`;
 
   prog_diary.query(sql, (err, data) => {
@@ -229,7 +237,7 @@ module.exports.getUsages = async (req, res) => {
     if (data.length > 0) {
       const usages = [];
 
-      for (i = 0; i < data.length; i++) {
+      for (let i: number = 0; i < data.length; i++) {
         usages.push(data[i].usages);
       }
       res.send(usages);
@@ -237,10 +245,9 @@ module.exports.getUsages = async (req, res) => {
       res.send(false);
     }
   });
-  console.log(err);
 };
 
-module.exports.getDescription = async (req, res) => {
+export const getDescription: ExpressController = async (req, res) => {
   const sql = `SELECT description FROM prog_languages WHERE prog_languages_name = ?`;
   const values = [req.body.id];
 
@@ -255,7 +262,7 @@ module.exports.getDescription = async (req, res) => {
   });
 };
 
-module.exports.getRelatedLanguages = async (req, res) => {
+export const getRelatedLanguages: ExpressController = async (req, res) => {
   const sql = `SELECT prog_languages.prog_languages_name, prog_languages_usages.description, prog_languages.language_icon
       FROM prog_languages
       INNER JOIN languages_usages
@@ -268,7 +275,7 @@ module.exports.getRelatedLanguages = async (req, res) => {
     if (err) return err;
     if (data.length > 0) {
       let relatedLanguages = [];
-      for (i = 0; i < data.length; i++) {
+      for (let i: number = 0; i < data.length; i++) {
         relatedLanguages.push({
           languageName: data[i].prog_languages_name,
           icon: data[i].language_icon,
@@ -282,7 +289,7 @@ module.exports.getRelatedLanguages = async (req, res) => {
   });
 };
 
-module.exports.getStatistics = async (req, res) => {
+export const getStatistics: ExpressController = async (req, res) => {
   const sql = `SELECT statistic_percentage, statistic_year
       FROM statistics
       WHERE prog_language_name = ?
@@ -290,27 +297,31 @@ module.exports.getStatistics = async (req, res) => {
   const values = [req.body.id];
 
   if (req.body.token) {
-    jwt.verify(req.body.token, "PrOgDiArYsEcReT", (err, decodedToken) => {
-      if (err) {
-        res.send(false);
-      } else {
-        prog_diary.query(sql, [values], (err, data) => {
-          if (err) return err;
-          if (data.length > 0) {
-            const statistics = [];
-            for (let i = 0; i < data.length; i++) {
-              statistics.push({
-                percentage: data[i].statistic_percentage,
-                year: data[i].statistic_year,
-              });
+    jwt.verify(
+      req.body.token,
+      "PrOgDiArYsEcReT",
+      (err: any, decodedToken: any) => {
+        if (err) {
+          res.send(false);
+        } else {
+          prog_diary.query(sql, [values], (err, data) => {
+            if (err) return err;
+            if (data.length > 0) {
+              const statistics = [];
+              for (let i = 0; i < data.length; i++) {
+                statistics.push({
+                  percentage: data[i].statistic_percentage,
+                  year: data[i].statistic_year,
+                });
+              }
+              res.send(statistics);
+            } else {
+              res.send(false);
             }
-            res.send(statistics);
-          } else {
-            res.send(false);
-          }
-        });
+          });
+        }
       }
-    });
+    );
   } else {
     res.send(false);
   }
