@@ -9,6 +9,34 @@
   justify-content: center;
   align-items: center;
 
+  .home-button {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 4rem;
+    aspect-ratio: 1/1;
+    background-color: white;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    svg {
+      font-size: 1.8rem;
+      transition: all 0.3s ease-in-out;
+    }
+    &:hover {
+      background-color: rgba(171, 88, 255, 1);
+      scale: 1.1;
+
+      svg {
+        color: white;
+      }
+    }
+  }
+
   .form {
     border-radius: 2rem;
     height: auto;

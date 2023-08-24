@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { BubbleBackground, InputComponent } from "../../components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 
 const SignUp = () => {
   const [user_name, setUser_name] = useState<string>("");
@@ -32,6 +34,14 @@ const SignUp = () => {
   return (
     <div className="sign-up-page">
       <BubbleBackground />
+      <button
+        className="home-button"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <FontAwesomeIcon icon={faHouse} />
+      </button>
       <div className="form">
         <h1>Signup</h1>
         <div className="input">
