@@ -21,7 +21,14 @@ const App = () => {
 
   return (
     <AppContext.Provider
-      value={{ email, setEmail, menuFlag, setMenuFlag, jwt, setJwt }}
+      value={{
+        email,
+        setEmail,
+        menuFlag,
+        setMenuFlag,
+        jwt,
+        setJwt,
+      }}
     >
       <div className="app">
         <BrowserRouter>

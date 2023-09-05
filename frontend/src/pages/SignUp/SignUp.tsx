@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { BubbleBackground, InputComponent } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { SubmitResultsInterface } from "./SubmitResultsInterface.types";
 
 const SignUp = () => {
   const [user_name, setUser_name] = useState<string>("");
@@ -12,6 +13,7 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>("");
   const [isValid, setIsValid] = useState<boolean>(false);
   const problemText = useRef<HTMLInputElement>(null);
+  const [submitResults, SetSubmitResult] = useState<SubmitResultsInterface>();
 
   const handleSubmit = () => {
     axios
@@ -25,11 +27,17 @@ const SignUp = () => {
           res.data.token
             ? (localStorage.setItem("jwt", res.data.token), navigate("/"))
             : "",
-          console.log(res.data)
+          SetSubmitResult(res.data),
+          res.data.userName &&
+            localStorage.setItem("username", res.data.userName)
         )
       )
       .catch((err) => problemText.current.classList.add("active"));
   };
+
+  useEffect(() => {
+    console.log("submit results", submitResults);
+  }, [submitResults]);
 
   return (
     <div className="sign-up-page">
@@ -50,6 +58,7 @@ const SignUp = () => {
             setValue={setUser_name}
             ChecksOn={false}
             fieldName="username"
+            submitResults={submitResults}
           />
         </div>
 
@@ -59,6 +68,7 @@ const SignUp = () => {
             ChecksOn={false}
             fieldName="email"
             setValue={setEmail}
+            submitResults={submitResults}
           />
         </div>
 
@@ -84,6 +94,26 @@ const SignUp = () => {
         >
           Signup
         </button>
+
+        {submitResults ? (
+          submitResults.registrationResult === "username already registered" ? (
+            <p className="problemText active" style={{ color: "black" }}>
+              username already registered,{" "}
+              <a
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                {" "}
+                try to login
+              </a>
+            </p>
+          ) : (
+            ""
+          )
+        ) : (
+          ""
+        )}
 
         <p className="problemText" ref={problemText}>
           There is a problem, try later...

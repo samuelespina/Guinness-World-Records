@@ -14,6 +14,48 @@ const InputComponent = (props: InputComponentInterface) => {
   const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
   const minLength = /^.{8,}$/;
 
+  const fetchErrors = () => {
+    if (props.submitResults) {
+      if (props.fieldName === "username") {
+        if (props.submitResults.registrationResult === "username") {
+          return <p className="error-message">username already used</p>;
+        } else {
+          return <p></p>;
+        }
+      } else if (props.fieldName === "email") {
+        if (props.submitResults.emailstatus === false) {
+          return <p className="error-message">email is not valid</p>;
+        } else if (props.submitResults.registrationResult === "email") {
+          return <p className="error-message">email already used</p>;
+        } else if (props.submitResults.registrationResult === "loginIssues") {
+          return <p className="error-message">email or password wrong</p>;
+        } else if (
+          props.submitResults.registrationResult === "email not found"
+        ) {
+          return <p className="error-message">this email is not registered</p>;
+        } else {
+          return <p></p>;
+        }
+      } else if (props.fieldName === "code") {
+        if (
+          props.submitResults.registrationResult === "secret code doesn't match"
+        ) {
+          return <p className="error-message">secret code doesn't match</p>;
+        } else if (
+          props.submitResults.registrationResult === "secret code expired"
+        ) {
+          return <p className="error-message">secret code expired</p>;
+        } else {
+          return <p></p>;
+        }
+      } else {
+        return <p></p>;
+      }
+    } else {
+      return <p></p>;
+    }
+  };
+
   useEffect(() => {
     if (props.value.length !== 0) {
       setStatusLabel(true);
@@ -121,6 +163,7 @@ const InputComponent = (props: InputComponentInterface) => {
       ) : (
         ""
       )}
+      {fetchErrors()}
     </div>
   );
 };

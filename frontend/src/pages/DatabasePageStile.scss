@@ -103,11 +103,17 @@
       user-select: none;
       display: none;
       transition: all 2s ease-in-out;
-      margin-bottom: 1rem;
+      margin: auto auto 1rem auto;
+      text-align: center;
       &.active {
         display: block;
         opacity: 1;
         color: red;
+        font-weight: bold;
+        a {
+          color: rgb(191, 129, 255);
+          cursor: pointer;
+        }
       }
     }
   }

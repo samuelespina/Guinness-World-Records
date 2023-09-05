@@ -109,8 +109,134 @@
     width: 100vw;
     height: 100vh;
     transition: all 0.8s ease-in-out;
+    .user-section {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-top: 0.2rem;
+      margin-right: 0.2rem;
+      pointer-events: auto;
+
+      .user-icon {
+        z-index: 3;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 5rem;
+        aspect-ratio: 1/1;
+        background-color: white;
+        border-radius: 50%;
+        background: rgb(167, 81, 255);
+        background: radial-gradient(
+          circle,
+          rgba(167, 81, 255, 1) 0%,
+          rgba(128, 3, 255, 1) 100%
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+
+        svg {
+          font-size: 2rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+      }
+      .user-interface {
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0;
+        margin-top: 5rem;
+        width: 10rem;
+        height: 8rem;
+        background: rgb(167, 81, 255);
+        background: radial-gradient(
+          circle,
+          rgba(167, 81, 255, 1) 0%,
+          rgba(128, 3, 255, 1) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease-in-out;
+
+        .logout {
+          padding: 0.5rem;
+          border-radius: 1.5rem;
+          border: 1.5px solid white;
+          color: rgba(255, 255, 255, 0.8);
+          background-color: rgba(128, 3, 255, 1);
+          scale: 1;
+          transition: all 0.2s ease-in-out;
+          &:hover {
+            transform: translateY(-0.3rem);
+          }
+        }
+
+        &.active {
+          pointer-events: auto;
+          opacity: 1;
+          transform: translateX(-4.5rem);
+        }
+      }
+    }
+
+    .registration {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-top: 0.5rem;
+      margin-right: 0.5rem;
+      width: 10rem;
+      height: 2.5rem;
+      border-radius: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      pointer-events: auto;
+      .signup-button {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        border-radius: 2rem;
+        box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        backdrop-filter: blur(50px);
+        background-color: rgba(255, 255, 255, 0.05);
+        &:hover {
+          background-color: rgb(167, 81, 255);
+        }
+      }
+      .login-button {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        box-shadow: 0px 0px 76px 28px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        border-radius: 2rem;
+        backdrop-filter: blur(50px);
+        background-color: rgba(255, 255, 255, 0.1);
+        &:hover {
+          background-color: rgb(128, 3, 255);
+        }
+      }
+    }
+
     .toggle-icon-wrapper {
-      position: relative;
+      position: absolute;
       top: 0;
       left: 0;
       margin-top: 0.2rem;
@@ -121,7 +247,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgb(128, 3, 255);
       background: rgb(167, 81, 255);
       background: radial-gradient(
         circle,
@@ -147,6 +272,7 @@
           transition: all 0.8s ease-in-out;
         }
       }
+
       &.active {
         .toggle-icon {
           .stick.one {
@@ -161,6 +287,7 @@
         }
       }
     }
+
     &.active {
       width: calc(100vw - 30rem);
       background-color: rgba(0, 0, 0, 0.8);
@@ -177,11 +304,14 @@
   }
 }
 
-@keyframes toggleAnimationOne {
+@keyframes logoutAnimation {
   0% {
-    transform: translateY(0rem);
+    pointer-events: none;
+    opacity: 1;
   }
   100% {
+    opacity: 0;
+    display: none;
   }
 }
 
@@ -250,6 +380,7 @@
       .toggle-icon-wrapper {
         scale: 0.9;
       }
+
       &.active {
         width: calc(100vw - 17rem);
       }

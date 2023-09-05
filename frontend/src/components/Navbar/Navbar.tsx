@@ -1,4 +1,4 @@
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState, useEffect, useContext, useRef } from "react";
@@ -17,6 +17,9 @@ const Navbar = () => {
   const { menuFlag, setMenuFlag } = useContext(AppContext);
   const menuRef = useRef<HTMLInputElement>(null);
   const triggerIconRef = useRef<HTMLInputElement>(null);
+  const [userStatus, setUserStatus] = useState<boolean>(false);
+  const logout = useRef<HTMLInputElement>(null);
+  const [registrationSwitch, setRegistrationSwitch] = useState<boolean>(false);
 
   const getLanguages = () => {
     axios
@@ -75,7 +78,14 @@ const Navbar = () => {
         }
       });
     }
-  }, [menuRef.current]);
+    if (logout.current) {
+      document.addEventListener("mousedown", (event: any) => {
+        if (!logout.current.contains(event.target)) {
+          setUserStatus(false);
+        }
+      });
+    }
+  }, [menuRef.current, logout.current]);
 
   return (
     <header
@@ -139,13 +149,6 @@ const Navbar = () => {
           >
             STATISTICS
           </h2>
-          <button
-            onClick={() => {
-              localStorage.removeItem("jwt");
-            }}
-          >
-            logout
-          </button>
         </div>
         <div className="fetch">
           {whatToFatch === 1 ? (
@@ -234,6 +237,60 @@ const Navbar = () => {
             <div className="stick three"></div>
           </div>
         </div>
+        {localStorage.getItem("jwt") ? (
+          <div className="user-section">
+            <button
+              className="user-icon"
+              onClick={() => {
+                userStatus ? setUserStatus(false) : setUserStatus(true);
+              }}
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </button>
+            <div
+              className={`user-interface ${userStatus ? "active" : "inactive"}`}
+            >
+              <p>{localStorage.getItem("username")}</p>
+              <button
+                className="logout"
+                onClick={() => {
+                  if (logout.current) {
+                    logout.current.classList.add("inactive");
+                  }
+                  localStorage.removeItem("jwt");
+                  if (registrationSwitch) {
+                    setRegistrationSwitch(false);
+                  } else {
+                    setRegistrationSwitch(true);
+                  }
+                }}
+              >
+                logout
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="registration">
+            <div className="signup-button">
+              <p
+                onClick={() => {
+                  navigate("/signup");
+                }}
+              >
+                SIGNUP
+              </p>
+            </div>
+            <div className="login-button">
+              <p
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                LOGIN
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

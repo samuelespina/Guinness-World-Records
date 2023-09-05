@@ -3,6 +3,8 @@ import React, { useContext, useRef, useState } from "react";
 import { AppContext } from "../../AppContext";
 import { BubbleBackground, InputComponent } from "../../components";
 import { useNavigate } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 
 const ResetPassword = () => {
   const { email } = useContext(AppContext);
@@ -14,14 +16,21 @@ const ResetPassword = () => {
   const handleSubmit = () => {
     axios
       .post("http://localhost:8081/reset-password", { password, email })
-      .then((res) => showError.current.classList.add("active"))
+      .then((res) => res.data && showError.current.classList.add("active"))
       .catch((err) => console.log("DIOOOOOOO", err));
   };
 
   return (
     <div className="reset-password">
       <BubbleBackground />
-
+      <button
+        className="home-button"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <FontAwesomeIcon icon={faHouse} />
+      </button>
       <div className="form">
         <h1>Reset your password</h1>
         <div className="input">
@@ -45,16 +54,16 @@ const ResetPassword = () => {
           submit
         </button>
 
-        <p className="show-message" ref={showError}>
-          La tua password è stata aggirnata, torna alla{" "}
-          <p
+        <p className="problemText" ref={showError} style={{ color: "black" }}>
+          your password has been updated, go back to the
+          <a
             onClick={() => {
               navigate("/login");
             }}
           >
-            pagina di login
-          </p>{" "}
-          ed inserisci i tuoi dati per vedere tutti i tui record preferiti
+            {" "}
+            login page
+          </a>
         </p>
       </div>
     </div>

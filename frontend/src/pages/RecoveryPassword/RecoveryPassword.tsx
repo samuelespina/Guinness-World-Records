@@ -3,12 +3,15 @@ import { AppContext } from "../../AppContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { BubbleBackground, InputComponent } from "../../components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { SubmitResultsInterface } from "../SignUp/SubmitResultsInterface.types";
 
 const RecoveryPassword = () => {
   const { email } = useContext(AppContext);
   const [validationCode, setValidationCode] = useState<string>("");
-  const showMessage = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const [submitResults, SetSubmitResult] = useState<SubmitResultsInterface>({});
 
   const handleSubmit = () => {
     axios
@@ -17,16 +20,28 @@ const RecoveryPassword = () => {
         validationCode,
       })
       .then((res) =>
-        res.data
+        res.data === true
           ? navigate("/reset-password")
-          : showMessage.current.classList.add("active")
+          : SetSubmitResult(res.data)
       )
       .catch((err) => console.log(err));
   };
 
+  useEffect(() => {
+    console.log(submitResults);
+  }, [submitResults]);
+
   return (
     <div className="recovery-password">
       <BubbleBackground />
+      <button
+        className="home-button"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <FontAwesomeIcon icon={faHouse} />
+      </button>
       <div className="form">
         {" "}
         <h1>Recovery password</h1>
@@ -36,6 +51,7 @@ const RecoveryPassword = () => {
             fieldName="code"
             ChecksOn={false}
             setValue={setValidationCode}
+            submitResults={submitResults}
           />
         </div>
         <button
@@ -46,7 +62,7 @@ const RecoveryPassword = () => {
         >
           submit
         </button>
-        <p className="show-message" ref={showMessage}>
+        <p className="show-message">
           Non è stata ritrovata corrispondenza tra l'email e il codice inserito,
           riprovare
         </p>
